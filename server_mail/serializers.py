@@ -1,4 +1,4 @@
-from .models import MailInfo, MailRule, MailOperation
+from .models import MailInfo, AlarmRule, MailOperation
 from rest_framework import serializers
 
 
@@ -8,9 +8,9 @@ class MailInfoSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-class MailRuleSerializer(serializers.HyperlinkedModelSerializer):
+class AlarmRuleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = MailRule
+        model = AlarmRule
         fields = '__all__'
 
 

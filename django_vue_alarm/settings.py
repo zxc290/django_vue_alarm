@@ -83,11 +83,11 @@ DATABASES = {
         # 数据库引擎设置
         'ENGINE': 'sql_server.pyodbc',
         # 要连接的数据库名
-        'NAME': 'ServerMail',
+        'NAME': 'ServerMailTest',
         # 数据库用户名
         'USER': 'sa',
         # 数据库密码
-        'PASSWORD': '5114198',
+        'PASSWORD': '7cool_7COOL_7cool',
         # 数据库主机地址
         'HOST': '127.0.0.1',
         # 数据库端口号，默认可以不写
@@ -101,11 +101,11 @@ DATABASES = {
         # 数据库引擎设置
         'ENGINE': 'sql_server.pyodbc',
         # 要连接的数据库名
-        'NAME': 'ServerAdmin',
+        'NAME': 'ServerAdminTest',
         # 数据库用户名
         'USER': 'sa',
         # 数据库密码
-        'PASSWORD': '5114198',
+        'PASSWORD': '7cool_7COOL_7cool',
         # 数据库主机地址
         'HOST': '127.0.0.1',
         # 数据库端口号，默认可以不写
@@ -119,11 +119,11 @@ DATABASES = {
         # 数据库引擎设置
         'ENGINE': 'sql_server.pyodbc',
         # 要连接的数据库名
-        'NAME': 'ServerManagement',
+        'NAME': 'ServerManagementTest',
         # 数据库用户名
         'USER': 'sa',
         # 数据库密码
-        'PASSWORD': '5114198',
+        'PASSWORD': '7cool_7COOL_7cool',
         # 数据库主机地址
         'HOST': '127.0.0.1',
         # 数据库端口号，默认可以不写
@@ -174,7 +174,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -183,10 +183,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
-}
+# 邮箱设置
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_HOST_USER = '15505283705@163.com'
+EMAIL_HOST_PASSWORD = '7cool7COOL7cool'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = '游戏告警 <15505283705@163.com>'
