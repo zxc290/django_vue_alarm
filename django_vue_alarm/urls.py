@@ -18,7 +18,7 @@ from django.urls import path, include
 from rest_framework import routers
 from server_admin.views import UserViewSet
 from server_management.views import AppListViewSet, ServerTableViewSet
-from server_mail.views import MailInfoViewSet, AlarmRuleViewSet, MailOperationViewSet, deal_alarm
+from server_mail.views import MailInfoViewSet, AlarmRuleViewSet, MailOperationViewSet, deal_alarm, test
 
 
 router = routers.DefaultRouter()
@@ -33,5 +33,6 @@ router.register('mail_operations', MailOperationViewSet)
 urlpatterns = [
     path(r'', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
-    path('alarm', deal_alarm)
+    path('alarm', deal_alarm),
+    path('test', test)
 ]
