@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 
 class AlarmRule(models.Model):
@@ -36,11 +37,13 @@ class MailOperation(models.Model):
     game = models.CharField(max_length=20, verbose_name='游戏')
     alarms = models.ManyToManyField(AlarmRule, verbose_name='操作规则')
     receiver = models.CharField(max_length=20, verbose_name='收件人')
+    created_date = models.DateTimeField(auto_now_add=True, verbose_name='添加日期')
 
     def __str__(self):
-        return self.game + '_' + self.alarms
+        return self.game + '_' + self.receiver
 
     class Meta:
+        ordering = ['-created_date']
         verbose_name = '邮件操作'
         verbose_name_plural = verbose_name
 

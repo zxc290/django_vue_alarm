@@ -1,5 +1,6 @@
 import json
 from django.core.mail import send_mail
+from django.shortcuts import render
 from django.conf import settings
 from django.http import JsonResponse
 from rest_framework import viewsets
@@ -115,7 +116,47 @@ def deal_alarm(request):
         return JsonResponse({'code': 0, 'message': '参数错误'})
 
 
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 def test(request):
+    print(json.loads(request.body))
     d = {'message':'test'}
     return JsonResponse(d)
+
+
+@api_view(['POST'])
+def add_rule(request):
+    data = json.loads(request.body).get('params')
+    alarm_description = data.get('alarmType')
+    game = data.get('game')
+    receiver = data.get('receiver')
+    mail_operation = MailOperation.objects.create(game=game, receiver=receiver)
+    alarm_rule = AlarmRule.objects.filter(description=alarm_description).first()
+    alarm_rule.mailoperation_set.add(mail_operation)
+    alarm_rule.save()
+    msg = {'code':1, 'message': '成功'}
+    return JsonResponse(msg)
+
+
+@api_view(['POST'])
+def delete_rule(request):
+    data = json.loads(request.body)
+    alarm_id = data.get('alarmId')
+    alarm_rule = AlarmRule.objects.get(id=alarm_id)
+    mail_operation_id_list = data.get('delArr')
+    mail_operation_list = [MailOperation.objects.get(id=each) for each in mail_operation_id_list]
+    for mail_operation in mail_operation_list:
+        mail_operation.alarms.remove(alarm_rule)
+        mail_operation.delete()
+    # game = data.get('game')
+    # receiver = data.get('receiver')
+    # alarm_id = data.get('alarmId')
+    # alarm_rule = AlarmRule.objects.get(id=alarm_id)
+    # mail_operation = MailOperation.objects.filter(game=game, receiver=receiver).first()
+    # alarm_rule.mailoperation_set.remove(mail_operation)
+    # mail_operation.delete()
+    msg = {'code': 1, 'message': '成功'}
+    return JsonResponse(msg)
+
+
+def index(request):
+    return render(request, '../frontend/index.html')

@@ -41,11 +41,13 @@ INSTALLED_APPS = [
     'server_management',
     'server_mail',
     'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -58,7 +60,8 @@ ROOT_URLCONF = 'django_vue_alarm.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        # 'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        'DIRS': [os.path.join(BASE_DIR, 'frontend')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -181,6 +184,13 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "frontend"),
+]
+# STATICFILES_DIRS = (
+#     ('dist', os.path.join(STATIC_ROOT, 'dist'))
+# )
 
 
 # 邮箱设置
@@ -190,3 +200,9 @@ EMAIL_HOST_PASSWORD = '7cool7COOL7cool'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = '游戏告警 <15505283705@163.com>'
+
+# cors跨域
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:8080'
+# )
+CORS_ORIGIN_ALLOW_ALL = True
