@@ -61,7 +61,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # 'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        'DIRS': [os.path.join(BASE_DIR, 'frontend')]
+        'DIRS': [os.path.join(BASE_DIR, 'frontend/dist')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -186,7 +186,7 @@ USE_TZ = False
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "frontend"),
+    os.path.join(BASE_DIR, "frontend/dist/static"),
 ]
 # STATICFILES_DIRS = (
 #     ('dist', os.path.join(STATIC_ROOT, 'dist'))
@@ -206,3 +206,12 @@ DEFAULT_FROM_EMAIL = '游戏告警 <15505283705@163.com>'
 #     'http://localhost:8080'
 # )
 CORS_ORIGIN_ALLOW_ALL = True
+
+# REST_FRAMEWORK = {
+    # 'DEFAULT_RENDERER_CLASSES': (
+    #     'rest_framework.renderers.BrowsableAPIRenderer',
+    # ),
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #         'rest_framework.permissions.IsAuthenticatedOrReadOnly'
+    #     ]
+# }

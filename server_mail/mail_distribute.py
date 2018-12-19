@@ -4,6 +4,70 @@ from server_mail.models import MailOperation, AlarmRule
 from server_admin.models import User
 
 
+class ArgsParser():
+    def __init__(self, data):
+        self.data = data
+        self._type = data.get('type')
+        self.ip = data.get('ip', '')
+        self.game = data.get('game', '')
+        self.platform = data.get('platform', '')
+        self.zone = data.get('zone', '')
+        self.alarm_rule = AlarmRule.objects.filter(alarm_type=self._type).first()
+        self.gametype = self.game or ServerTable.objects.filter(ipadd=self.ip).first().gametype
+        self.subject = ''
+        self.msg = ''
+        self.g_pt_zone = self.get_g_pt_zone()
+        self.file = self.get_mail_template()
+
+    def validate_json_data(self):
+        required_json_list = self.alarm_rule.json_args.split(',')
+        if [arg for arg in required_json_list if arg not in self.data]:
+            return False
+        else:
+            return True
+
+    def generate_subject_and_message(self):
+        kwargs = {}
+        for key in self.alarm_rule.template_kwargs.split(','):
+            kwargs[key] = self.data.get(key) or self.__dict__[key]
+        with open(self.file, 'r', encoding='utf8') as f:
+            self.msg = f.read().format(**kwargs)
+        return self.alarm_rule.description, self.msg
+
+    def get_receiver_mail_list(self):
+        receiver_name_list = [each.receiver for each in MailOperation.objects.filter(game=self.gametype).filter(alarms=self.alarm_rule).all()]
+        receiver_mail_list = [User.objects.filter(useridentity=name).first().emailaddress for name in receiver_name_list]
+        return receiver_mail_list
+
+    def get_send_rule(self):
+        if self.gametype:
+            print(MailOperation.objects.filter(game=self.gametype).filter(alarms=self.alarm_rule).first().send_rules)
+            send_rule = MailOperation.objects.filter(game=self.gametype).filter(alarms=self.alarm_rule).first().send_rules.rule
+        else:
+            send_rule = self.alarm_rule.send_rules
+        return send_rule
+
+    def get_g_pt_zone(self):
+        if self.game:
+            return self.game + '_' + self.platform + '_' + self.zone
+        else:
+            if self.ip:
+                server = ServerTable.objects.filter(ipadd=self.ip).first()
+                return server.gametype + '_' + server.ptname + '_' + server.zonename
+
+    def get_mail_template(self):
+        file_dir = os.path.dirname(__file__)
+        file_name = 'mail_message\\{0}.txt'.format(self._type)
+        file = os.path.join(file_dir, file_name)
+        return file
+
+
+
+
+
+
+
+
 class BaseRule():
     def __init__(self, data):
         self.data = data

@@ -5,9 +5,8 @@ from django.conf import settings
 from django.http import JsonResponse
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from .models import MailInfo, AlarmRule, MailOperation
-from .serializers import MailInfoSerializer, AlarmRuleSerializer, MailOperationSerializer
+from .models import MailInfo, AlarmRule, MailOperation, SendRule
+from .serializers import MailInfoSerializer, AlarmRuleSerializer, MailOperationSerializer, SendRuleSerializer
 from server_management.models import ServerTable
 from server_admin.models import User
 from .mail_distribute import *
@@ -31,27 +30,27 @@ class MailOperationViewSet(viewsets.ModelViewSet):
     serializer_class = MailOperationSerializer
 
 
+class SendRuleViewSet(viewsets.ModelViewSet):
+    queryset = SendRule.objects.all()
+    serializer_class = SendRuleSerializer
+
+
 @api_view(['POST'])
 def deal_alarm(request):
     data = json.loads(request.body)
-    print(data)
-    # 报警类型
+    # 前端报警类型
     alarm_type = data.get('type')
-    # 当前报警类型的游戏的邮件类实例化
-    mail_instance = alarm_hash[alarm_type](data)
-    # 验证前端json参数
-    if mail_instance.validate_json_data(*mail_instance.json_args):
-        # 获取邮件主题和内容
-        subject, content = mail_instance.generate_subject_and_message(**mail_instance.txt_kwargs)
-        # 报警规则对象
-        alarm_rule = mail_instance.alarm_rule
-        # 报警邮件发送规则
-        mail_rule = alarm_rule.alarm_rule
-        receiver_mail_list = mail_instance.get_reciever_mail_list(alarm_type)
+    # 解析前端
+    parser = ArgsParser(data)
+    # 解析成功
+    if parser.validate_json_data():
+        # 生成邮件主题和内容
+        subject, content = parser.generate_subject_and_message()
+        # 生成收件人列表
+        receiver_mail_list = parser.get_receiver_mail_list()
         # 保存邮件信息
-        mail_info = MailInfo.objects.create(ip_address=mail_instance.ip, game=mail_instance.gametype, title=subject.split(']')[0].strip('['),
-                                            content=content)
-        mail_info.mail_types.add(alarm_rule)
+        mail_info = MailInfo.objects.create(ip_address=parser.ip, game=parser.gametype, title=subject, content=content)
+        mail_info.mail_types.add(parser.alarm_rule)
         # 定义发送邮件参数，传入实例方便修改状态
         mail_info_args = [mail_info, ]
         mail_info_kwargs = {
@@ -62,8 +61,10 @@ def deal_alarm(request):
             'fail_silently': False,
         }
 
-        if mail_rule == '即时':
-            old_mail = MailInfo.objects.filter(game=mail_instance.gametype).filter(mail_types=alarm_rule).filter(sent=True).first()
+        send_rule = parser.get_send_rule()
+
+        if send_rule == 'immediately':
+            old_mail = MailInfo.objects.filter(game=parser.gametype).filter(mail_types=parser.alarm_rule).filter(sent=True).first()
             # 不存在旧邮件，直接发
             if not old_mail:
                 async_send_mail(*mail_info_args, **mail_info_kwargs)
@@ -75,14 +76,14 @@ def deal_alarm(request):
                 if timedelta_hours >= 1:
                     async_send_mail(*mail_info_args, **mail_info_kwargs)
 
-        elif mail_rule == '定时9,17点':
+        elif send_rule == '定时9,17点':
             date = datetime.now()
             today_start = date.replace(hour=0, minute=0, second=0)
             tomorrow_start = today_start + timedelta(days=1)
             hour = date.hour
             if hour == 9 or 17:
-                old_mail = MailInfo.objects.filter(game=mail_instance.gametype).filter(mail_types=alarm_rule).filter(sent=True).filter(
-                    create_date__range=[today_start, tomorrow_start]).first()
+                old_mail = MailInfo.objects.filter(game=parser.gametype).filter(mail_types=parser.alarm_rule).filter(
+                    sent=True).filter(create_date__range=[today_start, tomorrow_start]).first()
                 # 今天无此游戏报警的邮件，直接发
                 if not old_mail:
                     async_send_mail(*mail_info_args, **mail_info_kwargs)
@@ -91,11 +92,11 @@ def deal_alarm(request):
                     if old_mail.create_date.hour != hour:
                         async_send_mail(*mail_info_args, **mail_info_kwargs)
 
-        elif mail_rule == '积累1小时':
+        elif send_rule == '积累1小时':
             date = datetime.now()
             # 下个小时的整点发
             run_date = datetime(date.year, date.month, date.day, date.hour) + timedelta(hours=1)
-            job_id = mail_instance.gametype + '_' + alarm_type + '_' + str(run_date.hour)
+            job_id = parser.gametype + '_' + alarm_type + '_' + str(run_date.hour)
 
             # 根据任务id获取任务
             sched = scheduler.get_job(job_id)
@@ -116,11 +117,83 @@ def deal_alarm(request):
         return JsonResponse({'code': 0, 'message': '参数错误'})
 
 
-@api_view(['GET', 'POST'])
-def test(request):
-    print(json.loads(request.body))
-    d = {'message':'test'}
-    return JsonResponse(d)
+    # # 当前报警类型的游戏的邮件类实例化
+    # mail_instance = alarm_hash[alarm_type](data)
+    # # 验证前端json参数
+    # if mail_instance.validate_json_data(*mail_instance.json_args):
+    #     # 获取邮件主题和内容
+    #     subject, content = mail_instance.generate_subject_and_message(**mail_instance.txt_kwargs)
+    #     # 报警规则对象
+    #     alarm_rule = mail_instance.alarm_rule
+    #     # 报警邮件发送规则
+    #     mail_rule = alarm_rule.alarm_rule
+    #     receiver_mail_list = mail_instance.get_receiver_mail_list(alarm_type)
+    #     # 保存邮件信息
+    #     mail_info = MailInfo.objects.create(ip_address=mail_instance.ip, game=mail_instance.gametype, title=subject.split(']')[0].strip('['),
+    #                                         content=content)
+    #     mail_info.mail_types.add(alarm_rule)
+    #     # 定义发送邮件参数，传入实例方便修改状态
+    #     mail_info_args = [mail_info, ]
+    #     mail_info_kwargs = {
+    #         'subject': subject,
+    #         'message': content,
+    #         'from_email': settings.DEFAULT_FROM_EMAIL,
+    #         'recipient_list': ['290704731@qq.com'],
+    #         'fail_silently': False,
+    #     }
+    #
+    #     if mail_rule == '即时':
+    #         old_mail = MailInfo.objects.filter(game=mail_instance.gametype).filter(mail_types=alarm_rule).filter(sent=True).first()
+    #         # 不存在旧邮件，直接发
+    #         if not old_mail:
+    #             async_send_mail(*mail_info_args, **mail_info_kwargs)
+    #
+    #         # 存在旧邮件，比较时间差是否大于1小时
+    #         else:
+    #             timedelta_seconds = (mail_info.create_date - old_mail.create_date).seconds
+    #             timedelta_hours = timedelta_seconds // 3600
+    #             if timedelta_hours >= 1:
+    #                 async_send_mail(*mail_info_args, **mail_info_kwargs)
+    #
+    #     elif mail_rule == '定时9,17点':
+    #         date = datetime.now()
+    #         today_start = date.replace(hour=0, minute=0, second=0)
+    #         tomorrow_start = today_start + timedelta(days=1)
+    #         hour = date.hour
+    #         if hour == 9 or 17:
+    #             old_mail = MailInfo.objects.filter(game=mail_instance.gametype).filter(mail_types=alarm_rule).filter(sent=True).filter(
+    #                 create_date__range=[today_start, tomorrow_start]).first()
+    #             # 今天无此游戏报警的邮件，直接发
+    #             if not old_mail:
+    #                 async_send_mail(*mail_info_args, **mail_info_kwargs)
+    #             else:
+    #                 # 今天有此类游戏的报警,但不是这个时间点的，直接发
+    #                 if old_mail.create_date.hour != hour:
+    #                     async_send_mail(*mail_info_args, **mail_info_kwargs)
+    #
+    #     elif mail_rule == '积累1小时':
+    #         date = datetime.now()
+    #         # 下个小时的整点发
+    #         run_date = datetime(date.year, date.month, date.day, date.hour) + timedelta(hours=1)
+    #         job_id = mail_instance.gametype + '_' + alarm_type + '_' + str(run_date.hour)
+    #
+    #         # 根据任务id获取任务
+    #         sched = scheduler.get_job(job_id)
+    #         # 如果有任务存在，追加邮件内容，追加邮件信息实例
+    #         if sched:
+    #             modified_content = sched.kwargs.get('message') + '\r\n\r\n' + content
+    #             mail_info_args.append(mail_info)
+    #             mail_info_kwargs['message'] = modified_content
+    #             sched.modify(args=mail_info_args, kwargs=mail_info_kwargs)
+    #         # 如果任务不存在，新增定时任务
+    #         else:
+    #             scheduler.add_job(
+    #                 func=async_send_mail, trigger='date', run_date=run_date, id=job_id,
+    #                 args=mail_info_args, kwargs=mail_info_kwargs
+    #             )
+    #     return JsonResponse({'code': 1, 'message': '成功'})
+    # else:
+    #     return JsonResponse({'code': 0, 'message': '参数错误'})
 
 
 @api_view(['POST'])
@@ -159,4 +232,5 @@ def delete_rule(request):
 
 
 def index(request):
-    return render(request, '../frontend/index.html')
+    return render(request, 'index.html')
+

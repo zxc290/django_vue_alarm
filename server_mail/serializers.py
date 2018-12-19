@@ -1,5 +1,11 @@
-from .models import MailInfo, AlarmRule, MailOperation
+from .models import MailInfo, AlarmRule, MailOperation, SendRule
 from rest_framework import serializers
+
+
+class SendRuleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SendRule
+        fields = '__all__'
 
 
 class MailInfoSerializer(serializers.ModelSerializer):
@@ -11,7 +17,8 @@ class MailInfoSerializer(serializers.ModelSerializer):
 class MailOperationSerializer(serializers.ModelSerializer):
     class Meta:
         model = MailOperation
-        fields = ('id', 'game', 'receiver', 'created_date')
+        fields = ('id', 'game', 'receiver', 'created_date', 'send_rules')
+        depth = 1
 
 
 class AlarmRuleSerializer(serializers.ModelSerializer):
