@@ -37,9 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'server_admin',
-    'server_management',
-    'server_mail',
+    'server_alarm',
     'rest_framework',
     'corsheaders',
 ]
@@ -60,8 +58,8 @@ ROOT_URLCONF = 'django_vue_alarm.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # 'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        'DIRS': [os.path.join(BASE_DIR, 'frontend/dist')]
+        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        # 'DIRS': [os.path.join(BASE_DIR, 'frontend/dist')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -86,25 +84,7 @@ DATABASES = {
         # 数据库引擎设置
         'ENGINE': 'sql_server.pyodbc',
         # 要连接的数据库名
-        'NAME': 'ServerMailTest',
-        # 数据库用户名
-        'USER': 'sa',
-        # 数据库密码
-        'PASSWORD': '7cool_7COOL_7cool',
-        # 数据库主机地址
-        'HOST': '127.0.0.1',
-        # 数据库端口号，默认可以不写
-        'PORT': '',
-        # 选项，这个要先在操作系统上完成ODBC的连接创建，并连接成功，注意10.0这个地方，要和自己的ODBC版本一致
-        'OPTIONS': {
-            'driver': 'SQL Server Native Client 10.0',
-        },
-    },
-    'server_admin': {
-        # 数据库引擎设置
-        'ENGINE': 'sql_server.pyodbc',
-        # 要连接的数据库名
-        'NAME': 'ServerAdminTest',
+        'NAME': 'ServerAdmin',
         # 数据库用户名
         'USER': 'sa',
         # 数据库密码
@@ -122,7 +102,7 @@ DATABASES = {
         # 数据库引擎设置
         'ENGINE': 'sql_server.pyodbc',
         # 要连接的数据库名
-        'NAME': 'ServerManagementTest',
+        'NAME': 'ServerManagement',
         # 数据库用户名
         'USER': 'sa',
         # 数据库密码
@@ -136,15 +116,88 @@ DATABASES = {
             'driver': 'SQL Server Native Client 10.0',
         },
     },
+    'server_mail': {
+        # 数据库引擎设置
+        'ENGINE': 'sql_server.pyodbc',
+        # 要连接的数据库名
+        'NAME': 'ServerMail',
+        # 数据库用户名
+        'USER': 'sa',
+        # 数据库密码
+        'PASSWORD': '7cool_7COOL_7cool',
+        # 数据库主机地址
+        'HOST': '127.0.0.1',
+        # 数据库端口号，默认可以不写
+        'PORT': '',
+        # 选项，这个要先在操作系统上完成ODBC的连接创建，并连接成功，注意10.0这个地方，要和自己的ODBC版本一致
+        'OPTIONS': {
+            'driver': 'SQL Server Native Client 10.0',
+        },
+    },
+
+    # 'default': {
+    #     # 数据库引擎设置
+    #     'ENGINE': 'sql_server.pyodbc',
+    #     # 要连接的数据库名
+    #     'NAME': 'ServerMailTest',
+    #     # 数据库用户名
+    #     'USER': 'sa',
+    #     # 数据库密码
+    #     'PASSWORD': '7cool_7COOL_7cool',
+    #     # 数据库主机地址
+    #     'HOST': '127.0.0.1',
+    #     # 数据库端口号，默认可以不写
+    #     'PORT': '',
+    #     # 选项，这个要先在操作系统上完成ODBC的连接创建，并连接成功，注意10.0这个地方，要和自己的ODBC版本一致
+    #     'OPTIONS': {
+    #         'driver': 'SQL Server Native Client 10.0',
+    #     },
+    # },
+    # 'server_admin': {
+    #     # 数据库引擎设置
+    #     'ENGINE': 'sql_server.pyodbc',
+    #     # 要连接的数据库名
+    #     'NAME': 'ServerAdminTest',
+    #     # 数据库用户名
+    #     'USER': 'sa',
+    #     # 数据库密码
+    #     'PASSWORD': '7cool_7COOL_7cool',
+    #     # 数据库主机地址
+    #     'HOST': '127.0.0.1',
+    #     # 数据库端口号，默认可以不写
+    #     'PORT': '',
+    #     # 选项，这个要先在操作系统上完成ODBC的连接创建，并连接成功，注意10.0这个地方，要和自己的ODBC版本一致
+    #     'OPTIONS': {
+    #         'driver': 'SQL Server Native Client 10.0',
+    #     },
+    # },
+    # 'server_management': {
+    #     # 数据库引擎设置
+    #     'ENGINE': 'sql_server.pyodbc',
+    #     # 要连接的数据库名
+    #     'NAME': 'ServerManagementTest',
+    #     # 数据库用户名
+    #     'USER': 'sa',
+    #     # 数据库密码
+    #     'PASSWORD': '7cool_7COOL_7cool',
+    #     # 数据库主机地址
+    #     'HOST': '127.0.0.1',
+    #     # 数据库端口号，默认可以不写
+    #     'PORT': '',
+    #     # 选项，这个要先在操作系统上完成ODBC的连接创建，并连接成功，注意10.0这个地方，要和自己的ODBC版本一致
+    #     'OPTIONS': {
+    #         'driver': 'SQL Server Native Client 10.0',
+    #     },
+    # },
 }
 
-DATABASE_ROUTERS = ['django_vue_alarm.database_router.DatabaseAppsRouter']
-DATABASE_APPS_MAPPING = {
-    # example:
-    #'app_name':'database_name',
-    'server_admin': 'server_admin',
-    'server_management': 'server_management',
-}
+# DATABASE_ROUTERS = ['django_vue_alarm.database_router.DatabaseAppsRouter']
+# DATABASE_APPS_MAPPING = {
+#     # example:
+#     #'app_name':'database_name',
+#     'server_admin': 'server_admin',
+#     'server_management': 'server_management',
+# }
 
 
 # Password validation

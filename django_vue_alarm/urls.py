@@ -16,10 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from server_admin.views import UserViewSet
-from server_management.views import AppListViewSet, ServerTableViewSet
-from server_mail.views import MailInfoViewSet, AlarmRuleViewSet, MailOperationViewSet, SendRuleViewSet, deal_alarm, add_rule, delete_rule, index
-
+from server_alarm.views import UserViewSet, AppListViewSet, ServerTableViewSet, AlarmRuleViewSet, MailInfoViewSet, MailOperationViewSet, SendRuleViewSet, deal_alarm, add_rule, delete_rule
 
 router = routers.DefaultRouter()
 # router.include_root_view = False
@@ -35,11 +32,12 @@ router.register('send_rules', SendRuleViewSet)
 urlpatterns = [
     path(r'', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
-    path('users/', UserViewSet),
+    # path('users/', UserViewSet),
     path('alarm', deal_alarm),
     path('add_rule', add_rule),
     path('delete_rule', delete_rule),
-    path('index', index)
+    # path('alarm_rules/', AlarmRuleList.as_view()),
+    # path('alarm_rules/<int:id>/', AlarmRuleDetail.as_view())
+    # path('index', index)
 ]
-
 
