@@ -13,6 +13,9 @@ class UserWithEmailManager(models.Manager):
         return super().get_queryset().exclude(emailaddress='').exclude(emailaddress=None)
 
 
+class WXUser
+
+
 class User(models.Model):
     userid = models.IntegerField(db_column='userId', primary_key=True, verbose_name='用户id')
     useridentity = models.CharField(db_column='userIdentity', max_length=50, verbose_name='用户身份')
