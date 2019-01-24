@@ -35,19 +35,23 @@ class MailInfoViewSet(viewsets.ModelViewSet):
     serializer_class = MailInfoSerializer
 
 
-class AlarmRuleViewSet(viewsets.ModelViewSet):
-    queryset = AlarmRule.objects.all()
-    serializer_class = AlarmRuleSerializer
+# class AlarmRuleViewSet(viewsets.ModelViewSet):
+#     queryset = AlarmRule.objects.all()
+#     serializer_class = AlarmRuleSerializer
 
 
-class MailOperationViewSet(viewsets.ModelViewSet):
-    queryset = MailOperation.objects.all()
-    serializer_class = MailOperationSerializer
+# class MailOperationViewSet(viewsets.ModelViewSet):
+#     queryset = MailOperation.objects.all()
+#     serializer_class = MailOperationSerializer
 
 
 class SendRuleViewSet(viewsets.ModelViewSet):
     queryset = SendRule.objects.all()
     serializer_class = SendRuleSerializer
+
+
+# @api_view(['POST'])
+# def get_
 
 
 @api_view(['POST'])
@@ -211,115 +215,150 @@ def deal_alarm(request):
     #     return Response({'code': 0, 'message': '参数错误'})
 
 
-@api_view(['POST'])
-def add_rule(request):
-    data = json.loads(request.body).get('params')
-    alarm_description = data.get('alarmType')
-    game = data.get('game')
-    receiver = data.get('receiver')
-    mail_operation = MailOperation.objects.create(game=game, receiver=receiver)
-    alarm_rule = AlarmRule.objects.filter(description=alarm_description).first()
-    alarm_rule.mailoperation_set.add(mail_operation)
-    alarm_rule.save()
-    msg = {'code':1, 'message': '成功'}
-    return Response(msg)
+# @api_view(['POST'])
+# def add_rule(request):
+#     data = json.loads(request.body).get('params')
+#     alarm_description = data.get('alarmType')
+#     game = data.get('game')
+#     receiver = data.get('receiver')
+#     mail_operation = MailOperation.objects.create(game=game, receiver=receiver)
+#     alarm_rule = AlarmRule.objects.filter(description=alarm_description).first()
+#     alarm_rule.mailoperation_set.add(mail_operation)
+#     alarm_rule.save()
+#     msg = {'code':1, 'message': '成功'}
+#     return Response(msg)
 
 
-@api_view(['POST'])
-def delete_rule(request):
-    data = json.loads(request.body)
-    alarm_id = data.get('alarmId')
-    alarm_rule = AlarmRule.objects.get(id=alarm_id)
-    mail_operation_id_list = data.get('delArr')
-    mail_operation_list = [MailOperation.objects.get(id=each) for each in mail_operation_id_list]
-    for mail_operation in mail_operation_list:
-        mail_operation.alarms.remove(alarm_rule)
-        mail_operation.delete()
-    # game = data.get('game')
-    # receiver = data.get('receiver')
-    # alarm_id = data.get('alarmId')
-    # alarm_rule = AlarmRule.objects.get(id=alarm_id)
-    # mail_operation = MailOperation.objects.filter(game=game, receiver=receiver).first()
-    # alarm_rule.mailoperation_set.remove(mail_operation)
-    # mail_operation.delete()
-    msg = {'code': 1, 'message': '成功'}
-    return Response(msg)
+# @api_view(['POST'])
+# def delete_rule(request):
+#     data = json.loads(request.body)
+#     alarm_id = data.get('alarmId')
+#     alarm_rule = AlarmRule.objects.get(id=alarm_id)
+#     mail_operation_id_list = data.get('delArr')
+#     mail_operation_list = [MailOperation.objects.get(id=each) for each in mail_operation_id_list]
+#     for mail_operation in mail_operation_list:
+#         mail_operation.alarms.remove(alarm_rule)
+#         mail_operation.delete()
+#     # game = data.get('game')
+#     # receiver = data.get('receiver')
+#     # alarm_id = data.get('alarmId')
+#     # alarm_rule = AlarmRule.objects.get(id=alarm_id)
+#     # mail_operation = MailOperation.objects.filter(game=game, receiver=receiver).first()
+#     # alarm_rule.mailoperation_set.remove(mail_operation)
+#     # mail_operation.delete()
+#     msg = {'code': 1, 'message': '成功'}
+#     return Response(msg)
 
 
 # def index(request):
 #     return render(request, 'index.html')
 
 
-# class AlarmRuleViewSet(viewsets.ModelViewSet):
-#     queryset = AlarmRule.objects.all()
-#     serializer_class = AlarmRuleSerializer
-#
-#     def create(self, request, *args, **kwargs):
-#
-#         data = request.data
-#         print(data)
-#
-#         serializer = self.serializer_class(data=request.data)
-#
-#         if serializer.is_valid():
-#             print('hefa')
-#             serializer.save()
-#             print(serializer.data)
-#             print('333')
-#             print(request.query_params)
-#             return Response('123')
-#         # data = json.loads(request.body).get('params')
-#         # alarm_description = data.get('alarmType')
-#         # game = data.get('game')
-#         # receiver = data.get('receiver')
-#         # mail_operation = MailOperation.objects.create(game=game, receiver=receiver)
-#         # alarm_rule = AlarmRule.objects.filter(description=alarm_description).first()
-#         # alarm_rule.mailoperation_set.add(mail_operation)
-#         # alarm_rule.save()
-#         # msg = {'code': 1, 'message': '成功'}
-#         # return Response(msg)
-#
-#     def destroy(self, request, *args, **kwargs):
-#         pass
+class AlarmRuleList(APIView):
+    def get(self, request, format=None):
+        alarm_rules = AlarmRule.objects.all()
+        serializer = AlarmRuleSerializer(alarm_rules, many=True)
+        return Response(serializer.data)
+
+    # def post(self, request, format=None):
+    #     serializer = AlarmRuleSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         alarm_rule = serializer.save()
+    #         description = request.data.get('description')
+    #         alarm_rule = AlarmRule.objects.filter(description=description).first()
+    #         alarm_rule.mailoperation_set.add(mail_operation)
+    #         alarm_rule.save()
+    #         message = '新建邮件规则成功'
+    #         return Response({'code': 1, 'message': message})
+    #     message = '新建邮件规则失败'
+    #     return Response({'code': 0, 'message': message})
 
 
-# class AlarmRuleList(APIView):
-#     def get(self, request, format=None):
-#         alarm_rules = AlarmRule.objects.all()
-#         serializer = AlarmRuleSerializer(alarm_rules, many=True)
-#         return Response(serializer.data)
-#
-#     def post(self, request, format=None):
-#         data = request.data
-#         print(data)
-#         serializer = AlarmRuleSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#
-#
-# class AlarmRuleDetail(APIView):
-#     def get_object(self, pk):
-#         try:
-#             return AlarmRule.objects.get(pk=pk)
-#         except AlarmRule.DoesNotExist:
-#             raise Http404
-#
-#     def get(self, request, pk, format=None):
-#         alarm_rule = self.get_object(pk)
-#         serializer = AlarmRuleSerializer(alarm_rule)
-#         return Response(serializer.data)
-#
-#     def put(self, request, pk, format=None):
-#         alarm_rule = self.get_object(pk)
-#         serializer = AlarmRuleSerializer(alarm_rule, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#
-#     def delete(self, request, pk, format=None):
-#         alarm_rule = self.get_object(pk)
-#         alarm_rule.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
+class AlarmRuleDetail(APIView):
+    def get_object(self, id):
+        try:
+            return AlarmRule.objects.get(id=id)
+        except MailOperation.DoesNotExist:
+            raise Http404
+
+    def get(self, request, id, format=None):
+        alarm_rule = self.get_object(id)
+        serializer = AlarmRuleSerializer(alarm_rule)
+        mail_operation_list = serializer.data.get('mailoperation_set')
+        for each in mail_operation_list:
+            send_rule_id = each.get('send_rules')
+            if send_rule_id:
+                send_rule_description = SendRule.objects.get(id=send_rule_id).description
+                each['send_rules'] = send_rule_description
+        serializer.data['mailoperation_set'] = mail_operation_list
+        return Response(serializer.data)
+
+
+class MailOperationList(APIView):
+    def get(self, request, format=None):
+        mail_operations = MailOperation.objects.all()
+        serializer = MailOperationSerializer(mail_operations, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        print(request.data)
+        serializer = MailOperationSerializer(data=request.data)
+        if serializer.is_valid():
+            mail_operation = serializer.save()
+            alarm_description = request.data.get('description')
+            alarm_rule = AlarmRule.objects.filter(description=alarm_description).first()
+            alarm_rule.mailoperation_set.add(mail_operation)
+            alarm_rule.save()
+            rule_description = request.data.get('send_rule')
+            if rule_description:
+                send_rule = SendRule.objects.filter(description=rule_description).first()
+            else:
+                send_rule = alarm_rule.send_rules
+            send_rule.mail_operations.add(mail_operation)
+            send_rule.save()
+            message = '新建邮件规则成功'
+            return Response({'code': 1, 'message': message})
+        message = '新建邮件规则失败'
+        return Response({'code': 0, 'message': message})
+        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class MailOperationDetail(APIView):
+    def get_object(self, id):
+        try:
+            return MailOperation.objects.get(id=id)
+        except MailOperation.DoesNotExist:
+            raise Http404
+
+    def get(self, request, id, format=None):
+        mail_operation = self.get_object(id)
+        serializer = MailOperationSerializer(mail_operation)
+        return Response(serializer.data)
+
+    def put(self, request, id, format=None):
+        mail_operation = self.get_object(id)
+        serializer = MailOperationSerializer(mail_operation, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            print(request.data)
+            alarm_description = request.data.get('description')
+            alarm_rule = AlarmRule.objects.filter(description=alarm_description).first()
+            rule_description = request.data.get('send_rule')
+            if rule_description:
+                send_rule = SendRule.objects.filter(description=rule_description).first()
+            else:
+                send_rule = alarm_rule.send_rules
+            mail_operation.send_rules = send_rule
+            mail_operation.save()
+            message = '修改邮件规则成功'
+            return Response({'code': 1, 'message': message})
+        message = '修改邮件规则失败'
+        return Response({'code': 0, 'message': message})
+
+    def delete(self, request, id, format=None):
+        mail_operation = self.get_object(id)
+        mail_operation.delete()
+        # return Response(status=status.HTTP_204_NO_CONTENT)
+        message = '删除邮件规则成功'
+        return Response({'code': 1, 'message': message})

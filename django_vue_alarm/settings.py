@@ -134,6 +134,24 @@ DATABASES = {
             'driver': 'SQL Server Native Client 10.0',
         },
     },
+    # 'server_mail': {
+    #     # 数据库引擎设置
+    #     'ENGINE': 'sql_server.pyodbc',
+    #     # 要连接的数据库名
+    #     'NAME': 'ServerMail',
+    #     # 数据库用户名
+    #     'USER': 'sa',
+    #     # 数据库密码
+    #     'PASSWORD': '7cool_7COOL_7cool',
+    #     # 数据库主机地址
+    #     'HOST': '127.0.0.1',
+    #     # 数据库端口号，默认可以不写
+    #     'PORT': '',
+    #     # 选项，这个要先在操作系统上完成ODBC的连接创建，并连接成功，注意10.0这个地方，要和自己的ODBC版本一致
+    #     'OPTIONS': {
+    #         'driver': 'SQL Server Native Client 10.0',
+    #     },
+    # },
 
     # 'default': {
     #     # 数据库引擎设置

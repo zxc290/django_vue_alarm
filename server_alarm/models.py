@@ -142,7 +142,8 @@ class AlarmRule(models.Model):
     description = models.CharField(max_length=20, verbose_name='报警描述')
     json_args = models.CharField(max_length=50, verbose_name='前端参数', default='')
     template_kwargs = models.CharField(max_length=50, verbose_name='模板参数', default='')
-    send_rules = models.ForeignKey(SendRule, on_delete=models.SET_NULL, null=True, verbose_name='发送规则')
+    # send_rules = models.ForeignKey(SendRule, on_delete=models.SET_NULL, null=True, verbose_name='发送规则')
+    send_rules = models.ForeignKey(SendRule, on_delete=models.CASCADE, related_name='alarm_rules', verbose_name='发送规则')
 
     objects = ServerMailManager()
 
@@ -181,7 +182,8 @@ class MailOperation(models.Model):
     alarms = models.ManyToManyField(AlarmRule, verbose_name='操作规则')
     receiver = models.CharField(max_length=20, verbose_name='收件人')
     created_date = models.DateTimeField(auto_now_add=True, verbose_name='添加日期')
-    send_rules = models.ForeignKey(SendRule, on_delete=models.SET_DEFAULT, null=True, verbose_name='发送规则', default='')
+    # send_rules = models.ForeignKey(SendRule, on_delete=models.SET_DEFAULT, null=True, verbose_name='发送规则', default='')
+    send_rules = models.ForeignKey(SendRule, on_delete=models.CASCADE, related_name='mail_operations', verbose_name='发送规则', null=True)
 
     objects = ServerMailManager()
 

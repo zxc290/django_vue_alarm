@@ -42,7 +42,7 @@ class ArgsParser():
             print(MailOperation.objects.filter(game=self.gametype).filter(alarms=self.alarm_rule).first().send_rules)
             send_rule = MailOperation.objects.filter(game=self.gametype).filter(alarms=self.alarm_rule).first().send_rules.rule
         else:
-            send_rule = self.alarm_rule.send_rules
+            send_rule = self.alarm_rule.send_rules.rule
         return send_rule
 
     def get_g_pt_zone(self):
@@ -166,7 +166,7 @@ class AbnormalLogin(BaseRule):
 class AbnormalLog(BaseRule):
     def __init__(self, *args, **kwargs):
         super(AbnormalLog, self).__init__(*args, **kwargs)
-        self.subject = '[异常登录告警]' + self.ip
+        self.subject = '[异常日志告警]' + self.ip
         self.message = self.data.get('message')
         self.json_args = ('message',)
         self.txt_kwargs = {'g_pt_zone': self.g_pt_zone, 'message': self.message}

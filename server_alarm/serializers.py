@@ -35,12 +35,24 @@ class MailInfoSerializer(serializers.ModelSerializer):
 class MailOperationSerializer(serializers.ModelSerializer):
     class Meta:
         model = MailOperation
-        fields = ('id', 'game', 'receiver', 'created_date', 'send_rules')
-        depth = 1
+        fields = ('game', 'receiver')
+        # depth = 1
+
+
+class MailOperationListSerializer(serializers.ModelSerializer):
+    # test = serializers.CharField(max_length=100, default='')
+    # sendrule_set = SendRuleSerializer(many=True, read_only=True)
+    mail_operations = SendRuleSerializer(many=True, read_only=True)
+    class Meta:
+        model = MailOperation
+        # fields = '__all__'
+        fields = '__all__'
 
 
 class AlarmRuleSerializer(serializers.ModelSerializer):
-    mailoperation_set = MailOperationSerializer(many=True, read_only=True)
+    alarm_rules = SendRuleSerializer(many=True, read_only=True)
+    # mailoperation_set = MailOperationSerializer(many=True, read_only=True)
+    mailoperation_set = MailOperationListSerializer(many=True, read_only=True)
     class Meta:
         model = AlarmRule
         fields = '__all__'
