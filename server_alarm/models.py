@@ -48,28 +48,6 @@ class User(models.Model):
         db_table = 'User'
 
 
-class AppList(models.Model):
-    gid = models.IntegerField(db_column='GID', primary_key=True, verbose_name='游戏id')  # Field name made lowercase.
-    gname = models.CharField(db_column='GName', max_length=50, blank=True, null=True, verbose_name='游戏名称')  # Field name made lowercase.
-    gtype = models.IntegerField(db_column='GType', blank=True, null=True, verbose_name='游戏类型')  # Field name made lowercase.
-    createdate = models.DateField(db_column='CreateDate', blank=True, null=True, verbose_name='创建时间')  # Field name made lowercase.
-    testdate = models.DateField(db_column='TestDate', blank=True, null=True, verbose_name='测试时间')  # Field name made lowercase.
-    onlinedate = models.DateField(db_column='OnlineDate', blank=True, null=True, verbose_name='上线时间')  # Field name made lowercase.
-    offlinedate = models.DateField(db_column='OfflineDate', blank=True, null=True, verbose_name='下线时间')  # Field name made lowercase.
-    supervisor = models.CharField(db_column='Supervisor', max_length=50, blank=True, null=True, verbose_name='监管人员')  # Field name made lowercase.
-
-    objects = OnlineAppManager()
-
-    def __str__(self):
-        return self.gname
-
-    class Meta:
-        verbose_name = '游戏列表'
-        verbose_name_plural = verbose_name
-        managed = False
-        db_table = 'App_list'
-
-
 class ServerTable(models.Model):
     idx = models.IntegerField(primary_key=True, verbose_name='服务器id')
     zonename = models.CharField(db_column='ZoneName', max_length=1024, blank=True, null=True, verbose_name='区名')  # Field name made lowercase.
@@ -123,27 +101,49 @@ class ServerTable(models.Model):
         db_table = 'Server_table'
 
 
-class SendRule(models.Model):
-    rule = models.CharField(max_length=20, verbose_name='发送规则')
+class AppList(models.Model):
+    gid = models.IntegerField(db_column='GID', primary_key=True, verbose_name='游戏id')  # Field name made lowercase.
+    gname = models.CharField(db_column='GName', max_length=50, blank=True, null=True, verbose_name='游戏名称')  # Field name made lowercase.
+    gtype = models.IntegerField(db_column='GType', blank=True, null=True, verbose_name='游戏类型')  # Field name made lowercase.
+    createdate = models.DateField(db_column='CreateDate', blank=True, null=True, verbose_name='创建时间')  # Field name made lowercase.
+    testdate = models.DateField(db_column='TestDate', blank=True, null=True, verbose_name='测试时间')  # Field name made lowercase.
+    onlinedate = models.DateField(db_column='OnlineDate', blank=True, null=True, verbose_name='上线时间')  # Field name made lowercase.
+    offlinedate = models.DateField(db_column='OfflineDate', blank=True, null=True, verbose_name='下线时间')  # Field name made lowercase.
+    supervisor = models.CharField(db_column='Supervisor', max_length=50, blank=True, null=True, verbose_name='监管人员')  # Field name made lowercase.
+
+    objects = OnlineAppManager()
+
+    def __str__(self):
+        return self.gname
+
+    class Meta:
+        verbose_name = '游戏列表'
+        verbose_name_plural = verbose_name
+        managed = False
+        db_table = 'App_list'
+
+
+class Rule(models.Model):
+    send_rule = models.CharField(max_length=20, verbose_name='发送规则')
     description = models.CharField(max_length=50, verbose_name='规则描述')
 
     objects = ServerMailManager()
 
     def __str__(self):
-        return self.rule
+        return self.send_rule
 
     class Meta:
         verbose_name = '发送规则'
         verbose_name_plural = verbose_name
 
 
-class AlarmRule(models.Model):
-    alarm_type = models.CharField(max_length=20, verbose_name='报警类型', unique=True)
+class Alarm(models.Model):
+    type = models.CharField(max_length=20, verbose_name='报警类型', unique=True)
     description = models.CharField(max_length=20, verbose_name='报警描述')
     json_args = models.CharField(max_length=50, verbose_name='前端参数', default='')
     template_kwargs = models.CharField(max_length=50, verbose_name='模板参数', default='')
     # send_rules = models.ForeignKey(SendRule, on_delete=models.SET_NULL, null=True, verbose_name='发送规则')
-    send_rules = models.ForeignKey(SendRule, on_delete=models.CASCADE, related_name='alarm_rules', verbose_name='发送规则')
+    rules = models.ForeignKey(Rule, on_delete=models.CASCADE, related_name='alarms', verbose_name='发送规则')
 
     objects = ServerMailManager()
 
@@ -155,35 +155,14 @@ class AlarmRule(models.Model):
         verbose_name_plural = verbose_name
 
 
-class MailInfo(models.Model):
-    ip_address = models.CharField(max_length=15, verbose_name='IP地址', null=True, blank=True)
-    game = models.CharField(max_length=20, verbose_name='游戏', null=True, blank=True)
-    platform = models.CharField(max_length=20, verbose_name='平台', null=True, blank=True)
-    zone = models.CharField(max_length=20, verbose_name='区服', null=True, blank=True)
-    title = models.CharField(max_length=20, verbose_name='标题')
-    content = models.CharField(max_length=50, verbose_name='内容')
-    sent = models.BooleanField(default=False, verbose_name='已发送')
-    create_date = models.DateTimeField(auto_now_add=True, verbose_name='创建日期')
-    mail_types = models.ManyToManyField(AlarmRule, verbose_name='邮件类型')
-
-    objects = ServerMailManager()
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        ordering = ['-create_date']
-        verbose_name = '邮件信息'
-        verbose_name_plural = verbose_name
-
-
 class MailOperation(models.Model):
     game = models.CharField(max_length=20, verbose_name='游戏', null=True, blank=True)
-    alarms = models.ManyToManyField(AlarmRule, verbose_name='操作规则')
+    # alarms = models.ManyToManyField(AlarmRule, verbose_name='操作规则')
     receiver = models.CharField(max_length=20, verbose_name='收件人')
     created_date = models.DateTimeField(auto_now_add=True, verbose_name='添加日期')
+    alarms = models.ForeignKey(Alarm, on_delete=models.CASCADE, related_name='mail_operations_alarms', verbose_name='操作规则')
     # send_rules = models.ForeignKey(SendRule, on_delete=models.SET_DEFAULT, null=True, verbose_name='发送规则', default='')
-    send_rules = models.ForeignKey(SendRule, on_delete=models.CASCADE, related_name='mail_operations', verbose_name='发送规则', null=True)
+    rules = models.ForeignKey(Rule, on_delete=models.CASCADE, related_name='mail_operations_rules', verbose_name='发送规则', null=True)
 
     objects = ServerMailManager()
 
@@ -199,4 +178,26 @@ class MailOperation(models.Model):
     class Meta:
         ordering = ['-created_date']
         verbose_name = '邮件操作'
+        verbose_name_plural = verbose_name
+
+
+class MailInfo(models.Model):
+    ip_address = models.CharField(max_length=15, verbose_name='IP地址', null=True, blank=True)
+    game = models.CharField(max_length=20, verbose_name='游戏', null=True, blank=True)
+    platform = models.CharField(max_length=20, verbose_name='平台', null=True, blank=True)
+    zone = models.CharField(max_length=20, verbose_name='区服', null=True, blank=True)
+    title = models.CharField(max_length=20, verbose_name='标题')
+    content = models.CharField(max_length=50, verbose_name='内容')
+    sent = models.BooleanField(default=False, verbose_name='已发送')
+    create_date = models.DateTimeField(auto_now_add=True, verbose_name='创建日期')
+    alarms = models.ManyToManyField(Alarm, verbose_name='邮件类型')
+
+    objects = ServerMailManager()
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['-create_date']
+        verbose_name = '邮件信息'
         verbose_name_plural = verbose_name

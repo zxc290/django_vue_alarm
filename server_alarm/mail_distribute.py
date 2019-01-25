@@ -1,16 +1,17 @@
 import os
-from .models import ServerTable, MailOperation, AlarmRule, User
+from .models import ServerTable, MailOperation, Alarm, User
 
 
 class ArgsParser():
-    def __init__(self, data):
+    def __init__(self, alarm_rule, data):
         self.data = data
-        self._type = data.get('type')
+        # self._type = data.get('type')
         self.ip = data.get('ip', '')
         self.game = data.get('game', '')
         self.platform = data.get('platform', '')
         self.zone = data.get('zone', '')
-        self.alarm_rule = AlarmRule.objects.filter(alarm_type=self._type).first()
+        # self.alarm_rule = Alarm.objects.filter(alarm_type=self._type).first()
+        self.alarm_rule = alarm_rule
         self.gametype = self.game or ServerTable.objects.filter(ipadd=self.ip).first().gametype
         self.subject = ''
         self.msg = ''
@@ -39,7 +40,7 @@ class ArgsParser():
 
     def get_send_rule(self):
         if self.gametype:
-            print(MailOperation.objects.filter(game=self.gametype).filter(alarms=self.alarm_rule).first().send_rules)
+            # print(MailOperation.objects.filter(game=self.gametype).filter(alarms=self.alarm_rule).first().send_rules)
             send_rule = MailOperation.objects.filter(game=self.gametype).filter(alarms=self.alarm_rule).first().send_rules.rule
         else:
             send_rule = self.alarm_rule.send_rules.rule
@@ -55,15 +56,9 @@ class ArgsParser():
 
     def get_mail_template(self):
         file_dir = os.path.dirname(__file__)
-        file_name = 'mail_message\\{0}.txt'.format(self._type)
+        file_name = 'mail_message\\{0}.txt'.format(self.alarm_rule.alarm_type)
         file = os.path.join(file_dir, file_name)
         return file
-
-
-
-
-
-
 
 
 class BaseRule():
@@ -74,7 +69,7 @@ class BaseRule():
         self.game = data.get('game', '')
         self.platform = data.get('platform', '')
         self.zone = data.get('zone', '')
-        self.alarm_rule = AlarmRule.objects.filter(alarm_type=self._type).first()
+        self.alarm_rule = Alarm.objects.filter(alarm_type=self._type).first()
         self.gametype = self.game or ServerTable.objects.filter(ipadd=self.ip).first().gametype
         self.subject = ''
         self.msg = ''
@@ -108,7 +103,7 @@ class BaseRule():
         return self.subject, self.msg
     
     def get_reciever_mail_list(self, alarm_type):
-        alarm_rule = AlarmRule.objects.filter(alarm_type=alarm_type).first()
+        alarm_rule = Alarm.objects.filter(alarm_type=alarm_type).first()
         receiver_name_list = MailOperation.objects.filter(game=self.gametype).filter(alarms=alarm_rule).all()
         receiver_mail_list = [User.objects.filter(useridentity=name).first().emailaddress for name in receiver_name_list]
         return receiver_mail_list
