@@ -1,9 +1,11 @@
 import os
-from .models import ServerTable, MailOperation, Alarm, User
+from django.db import connections
+from .models import ServerTable, GameOperation, Alarm, User, Rule
+from .dbtools import dict_fetchall
 
 
 class ArgsParser():
-    def __init__(self, alarm_rule, data):
+    def __init__(self, alarm, data):
         self.data = data
         # self._type = data.get('type')
         self.ip = data.get('ip', '')
@@ -11,7 +13,7 @@ class ArgsParser():
         self.platform = data.get('platform', '')
         self.zone = data.get('zone', '')
         # self.alarm_rule = Alarm.objects.filter(alarm_type=self._type).first()
-        self.alarm_rule = alarm_rule
+        self.alarm = alarm
         self.gametype = self.game or ServerTable.objects.filter(ipadd=self.ip).first().gametype
         self.subject = ''
         self.msg = ''
@@ -19,32 +21,57 @@ class ArgsParser():
         self.file = self.get_mail_template()
 
     def validate_json_data(self):
-        required_json_list = self.alarm_rule.json_args.split(',')
+        required_json_list = self.alarm.json_args.split(',')
         if [arg for arg in required_json_list if arg not in self.data]:
             return False
         else:
             return True
 
     def generate_subject_and_message(self):
-        kwargs = {}
-        for key in self.alarm_rule.template_kwargs.split(','):
+        kwargs = dict()
+        for key in self.alarm.template_kwargs.split(','):
             kwargs[key] = self.data.get(key) or self.__dict__[key]
         with open(self.file, 'r', encoding='utf8') as f:
             self.msg = f.read().format(**kwargs)
-        return self.alarm_rule.description, self.msg
+        return self.alarm.description, self.msg
 
-    def get_receiver_mail_list(self):
-        receiver_name_list = [each.receiver for each in MailOperation.objects.filter(game=self.gametype).filter(alarms=self.alarm_rule).all()]
-        receiver_mail_list = [User.objects.filter(useridentity=name).first().emailaddress for name in receiver_name_list]
-        return receiver_mail_list
-
-    def get_send_rule(self):
-        if self.gametype:
-            # print(MailOperation.objects.filter(game=self.gametype).filter(alarms=self.alarm_rule).first().send_rules)
-            send_rule = MailOperation.objects.filter(game=self.gametype).filter(alarms=self.alarm_rule).first().send_rules.rule
+    def get_recipients_and_rule(self):
+        if self.alarm.receivers_by_games:
+            sql = "SELECT alarm.receivers as alarm_receivers, alarm.rules_id as alarm_send_rule, operation.receivers as game_receivers, " \
+                  "operation.rules_id as game_send_rule FROM server_alarm_alarm as alarm JOIN server_alarm_gameoperation as operation " \
+                  "ON alarm.id = operation.alarms_id WHERE operation.game='{game}' AND alarm.type='{type}'".format(game=self.game, type=self.alarm_rule.alarm_type)
+            try:
+                server_mail_cursor = connections['server_mail'].cursor()
+                server_mail_cursor.execute(sql)
+                result = dict_fetchall(server_mail_cursor)[0]
+                rule_id = result.get('game_send_rule')
+                if rule_id:
+                    send_rule = Rule.objects.get(id=rule_id)
+                else:
+                    send_rule = self.alarm.rules
+                receiver_id_list = result.get('game_receivers').split(',')
+                receiver_list = User.objects.filter(userid__in=receiver_id_list)
+                recipients = [each.emailaddress for each in receiver_list]
+            except:
+                pass
+            finally:
+                server_mail_cursor.close()
         else:
-            send_rule = self.alarm_rule.send_rules.rule
-        return send_rule
+            send_rule = self.alarm.rules
+            receiver_id_list = self.alarm.receivers.split(',')
+            receiver_list = User.objects.filter(userid__in=receiver_id_list)
+            recipients = [each.emailaddress for each in receiver_list]
+            # receiver_name_list = [each.receiver for each in GameOperation.objects.filter(game=self.gametype).filter(alarms=self.alarm_rule).all()]
+            # receiver_mail_list = [User.objects.filter(useridentity=name).first().emailaddress for name in receiver_name_list]
+        return send_rule, recipients
+
+    # def get_send_rule(self):
+    #     if self.gametype:
+    #         # print(GameOperation.objects.filter(game=self.gametype).filter(alarms=self.alarm_rule).first().send_rules)
+    #         send_rule = GameOperation.objects.filter(game=self.gametype).filter(alarms=self.alarm_rule).first().send_rules.rule
+    #     else:
+    #         send_rule = self.alarm_rule.send_rules.rule
+    #     return send_rule
 
     def get_g_pt_zone(self):
         if self.game:
@@ -56,7 +83,7 @@ class ArgsParser():
 
     def get_mail_template(self):
         file_dir = os.path.dirname(__file__)
-        file_name = 'mail_message\\{0}.txt'.format(self.alarm_rule.alarm_type)
+        file_name = 'mail_message\\{0}.txt'.format(self.alarm.type)
         file = os.path.join(file_dir, file_name)
         return file
 
@@ -104,7 +131,7 @@ class BaseRule():
     
     def get_reciever_mail_list(self, alarm_type):
         alarm_rule = Alarm.objects.filter(alarm_type=alarm_type).first()
-        receiver_name_list = MailOperation.objects.filter(game=self.gametype).filter(alarms=alarm_rule).all()
+        receiver_name_list = GameOperation.objects.filter(game=self.gametype).filter(alarms=alarm_rule).all()
         receiver_mail_list = [User.objects.filter(useridentity=name).first().emailaddress for name in receiver_name_list]
         return receiver_mail_list
         

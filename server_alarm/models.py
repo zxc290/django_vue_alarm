@@ -140,9 +140,10 @@ class Rule(models.Model):
 class Alarm(models.Model):
     type = models.CharField(max_length=20, verbose_name='报警类型', unique=True)
     description = models.CharField(max_length=20, verbose_name='报警描述')
-    receivers = models.CharField(max_length=1000, verbose_name='收件人列表')
-    json_args = models.CharField(max_length=50, verbose_name='前端参数', default='')
-    template_kwargs = models.CharField(max_length=50, verbose_name='模板参数', default='')
+    receivers = models.CharField(max_length=1000, blank=True, null=True, verbose_name='收件人列表')
+    receivers_by_games = models.BooleanField(verbose_name='是否按游戏区分', default=False)
+    json_args = models.CharField(max_length=50, verbose_name='前端参数')
+    template_kwargs = models.CharField(max_length=50, verbose_name='模板参数')
     # send_rules = models.ForeignKey(SendRule, on_delete=models.SET_NULL, null=True, verbose_name='发送规则')
     rules = models.ForeignKey(Rule, on_delete=models.CASCADE, related_name='alarms', verbose_name='发送规则')
 
@@ -156,14 +157,14 @@ class Alarm(models.Model):
         verbose_name_plural = verbose_name
 
 
-class MailOperation(models.Model):
+class GameOperation(models.Model):
     game = models.CharField(max_length=20, verbose_name='游戏', null=True, blank=True)
     # alarms = models.ManyToManyField(AlarmRule, verbose_name='操作规则')
     receivers = models.CharField(max_length=1000, verbose_name='收件人')
     created_date = models.DateTimeField(auto_now_add=True, verbose_name='添加日期')
-    alarms = models.ForeignKey(Alarm, on_delete=models.CASCADE, related_name='mail_operations_alarms', verbose_name='操作规则')
+    alarms = models.ForeignKey(Alarm, on_delete=models.CASCADE, related_name='go_alarms', verbose_name='操作规则')
     # send_rules = models.ForeignKey(SendRule, on_delete=models.SET_DEFAULT, null=True, verbose_name='发送规则', default='')
-    rules = models.ForeignKey(Rule, on_delete=models.CASCADE, related_name='mail_operations_rules', verbose_name='发送规则', null=True)
+    rules = models.ForeignKey(Rule, on_delete=models.CASCADE, related_name='go_rules', verbose_name='发送规则', null=True)
 
     objects = ServerMailManager()
 
