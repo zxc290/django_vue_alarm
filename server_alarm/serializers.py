@@ -1,11 +1,11 @@
-# from .models import User, AppList, ServerTable, SendRule, MailInfo, MailOperation, AlarmRule
-# from rest_framework import serializers
+from .models import User, AppList, ServerTable, MailInfo
+from rest_framework import serializers
 #
 #
-# class UserSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ('userid', 'useridentity', 'emailaddress')
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ('userid', 'useridentity', 'emailaddress')
 #
 #
 # class AppListSerializer(serializers.HyperlinkedModelSerializer):

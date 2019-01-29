@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import User, AppList, ServerTable, MailInfo, Alarm, GameOperation, Rule
+from .serializers import UserSerializer
 # from .serializers import UserSerializer, AppListSerializer, ServerTableSerializer, MailInfoSerializer, AlarmSerializer, GameOperationSerializer, RuleSerializer
 from .mail_distribute import ArgsParser
 from .send_mail import async_send_mail
@@ -261,11 +262,16 @@ class AlarmDetail(APIView):
         alarm_rule = self.get_object(id)
         alarm_rule_dict = dict()
         alarm_rule_dict['id'] = alarm_rule.id
-        alarm_rule_dict['alarm_type'] = alarm_rule.type
+        alarm_rule_dict['type'] = alarm_rule.type
         alarm_rule_dict['description'] = alarm_rule.description
         alarm_rule_dict['json_args'] = alarm_rule.json_args
         alarm_rule_dict['template_kwargs'] = alarm_rule.template_kwargs
-        alarm_rule_dict['send_rules'] = alarm_rule.rules.description
+        alarm_rule_dict['rule_id'] = alarm_rule.rules.id
+        alarm_receiver_id_list = [int(id) for id in alarm_rule.receivers.split(',')]
+        alarm_receivers = User.objects.filter(userid__in=alarm_receiver_id_list)
+        serializer = UserSerializer(alarm_receivers, many=True)
+        alarm_rule_dict['receivers'] = serializer.data
+        alarm_rule_dict['receivers_by_games'] = alarm_rule.receivers_by_games
         alarm_rule_dict['GameOperation_set'] = []
         go_list = alarm_rule.go_alarms.all()
 
@@ -273,9 +279,12 @@ class AlarmDetail(APIView):
             mail_operation_dict = dict()
             mail_operation_dict['id'] = each.id
             mail_operation_dict['game'] = each.game
-            mail_operation_dict['receivers'] = each.receivers
+            game_receiver_id_list = [int(id) for id in each.receivers.split(',')]
+            game_receivers = User.objects.filter(userid__in=game_receiver_id_list)
+            serializer = UserSerializer(game_receivers, many=True)
+            mail_operation_dict['receivers'] = serializer.data
             mail_operation_dict['created_date'] = each.created_date
-            mail_operation_dict['send_rules'] = each.rules.description
+            mail_operation_dict['rule_id'] = each.rules.id
             alarm_rule_dict['GameOperation_set'].append(mail_operation_dict)
             # send_rule_description = each.send_rules.description
             # # send_rule_id = each.send_rules
@@ -453,37 +462,37 @@ def multi_delete_mail_operations(request):
 
 
 @api_view(['GET'])
-def get_rule_option_data(request):
+def get_initial_options(request):
     all_user = User.objects.all()
     all_game = AppList.objects.all()
     all_rule = Rule.objects.all()
 
-    user_list = []
+    users = []
     for user in all_user:
         user_dict = dict()
         user_dict['userid'] = user.userid
         user_dict['useridentity'] = user.useridentity
         user_dict['emailaddress'] = user.emailaddress
-        user_list.append(user_dict)
+        users.append(user_dict)
 
-    game_list = []
+    games = []
     for game in all_game:
         game_dict = dict()
         game_dict['gid'] = game.gid
         game_dict['gname'] = game.gname
-        game_list.append(game_dict)
+        games.append(game_dict)
 
-    send_rule_list = []
+    rules = []
     for rule in all_rule:
-        send_rule_dict = dict()
-        send_rule_dict['id'] = rule.id
-        send_rule_dict['rule'] = rule.send_rule
-        send_rule_dict['description'] = rule.description
-        send_rule_list.append(send_rule_dict)
+        rule_dict = dict()
+        rule_dict['id'] = rule.id
+        rule_dict['rule'] = rule.send_rule
+        rule_dict['description'] = rule.description
+        rules.append(rule_dict)
 
     message = '获取规则选项成功'
 
-    return Response({'code': 1, 'message': message, 'user_list': user_list, 'game_list': game_list, 'send_rule_list': send_rule_list})
+    return Response({'code': 1, 'message': message, 'users': users, 'games': games, 'rules': rules})
 
 
 class RuleList(APIView):
