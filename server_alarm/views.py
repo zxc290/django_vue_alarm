@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import User, AppList, ServerTable, MailInfo, Alarm, GameOperation, Rule
-from .serializers import UserSerializer
+from .serializers import UserSerializer, AlarmSerializer, RuleSerializer
 # from .serializers import UserSerializer, AppListSerializer, ServerTableSerializer, MailInfoSerializer, AlarmSerializer, GameOperationSerializer, RuleSerializer
 from .mail_distribute import ArgsParser
 from .send_mail import async_send_mail
@@ -267,11 +267,11 @@ class AlarmDetail(APIView):
         alarm_rule_dict['json_args'] = alarm_rule.json_args
         alarm_rule_dict['template_kwargs'] = alarm_rule.template_kwargs
         alarm_rule_dict['rule_id'] = alarm_rule.rules.id
+        alarm_rule_dict['receivers_by_games'] = alarm_rule.receivers_by_games
         alarm_receiver_id_list = [int(id) for id in alarm_rule.receivers.split(',')]
         alarm_receivers = User.objects.filter(userid__in=alarm_receiver_id_list)
         serializer = UserSerializer(alarm_receivers, many=True)
         alarm_rule_dict['receivers'] = serializer.data
-        alarm_rule_dict['receivers_by_games'] = alarm_rule.receivers_by_games
         alarm_rule_dict['GameOperation_set'] = []
         go_list = alarm_rule.go_alarms.all()
 
@@ -293,6 +293,23 @@ class AlarmDetail(APIView):
         # print(alarm_rule_dict)
         message = '获取{0}规则成功'.format(alarm_rule.description)
         return Response({'code': 1, 'message': message, 'alarm_rule_dict': alarm_rule_dict})
+
+    # def put(self, request, id, format=None):
+    #     data = request.data
+    #     rule_id = data.get('rule_id')
+    #     rule = Rule.objects.get(id=rule_id)
+    #     alarm_rule = self.get_object(id)
+    #     alarm_rule.rules_id = rule_id
+    #     alarm_rule.save()
+    #
+    #     rule_serializer = RuleSerializer(rule)
+    #     alarm_serializer = AlarmSerializer(alarm_rule)
+    #     alarm_serializer.data['rule'] = rule_serializer.data
+    #
+    #     # if alarm_serializer.is_valid():
+    #     #     alarm_serializer.save()
+    #     return Response({'code': 1, 'alarm': alarm_serializer.data})
+
 
         # serializer = AlarmSerializer(alarm_rule)
         # print(serializer.data)
@@ -537,3 +554,39 @@ class UserList(APIView):
 #
 #
 #     return Response({'code': 1, 'message': })
+
+
+@api_view(['PUT'])
+def update_alarm_rule(request, id):
+    try:
+        alarm = Alarm.objects.get(id=id)
+    except:
+        message = '修改默认规则失败'
+        return Response({'code': 0, 'message': message})
+    if request.method == 'PUT':
+        data = request.data
+        rule_id = data.get('rule_id')
+        rule = Rule.objects.get(id=rule_id)
+        alarm.rules = rule
+        alarm.save()
+        serializer = AlarmSerializer(alarm)
+        message = '修改默认规则成功'
+        return Response({'code': 1, 'message': message, 'alarm': serializer.data})
+
+
+@api_view(['PUT'])
+def update_alarm_receiver(request, id):
+    try:
+        alarm = Alarm.objects.get(id=id)
+    except:
+        message = '修改默认收件人失败'
+        return Response({'code': 0, 'message': message})
+    if request.method == 'PUT':
+        data = request.data
+        user_id_list = data.get('user_id_list')
+        receivers = ','.join([str(x) for x in user_id_list])
+        alarm.receivers = receivers
+        alarm.save()
+        serializer = AlarmSerializer(alarm)
+        message = '修改默认收件人成功'
+        return Response({'code': 1, 'message': message, 'alarm': serializer.data})

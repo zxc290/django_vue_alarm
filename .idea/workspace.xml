@@ -38,8 +38,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server_alarm/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="12" column="10" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="10" />
+            <state relative-caret-position="399">
+              <caret line="147" column="7" selection-start-line="147" selection-start-column="7" selection-end-line="147" selection-end-column="7" />
               <folding>
                 <element signature="e#468#496#0" expanded="true" />
               </folding>
@@ -50,8 +50,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server_alarm/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="506">
-              <caret line="286" column="40" selection-start-line="286" selection-start-column="40" selection-end-line="286" selection-end-column="40" />
+            <state relative-caret-position="408">
+              <caret line="586" column="60" selection-start-line="586" selection-start-column="60" selection-end-line="586" selection-end-column="60" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -62,8 +62,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server_alarm/serializers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="47" selection-start-column="47" selection-end-column="47" />
+            <state relative-caret-position="323">
+              <caret line="17" column="26" lean-forward="true" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
+              <folding>
+                <element signature="e#0#69#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -80,8 +83,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/django_vue_alarm/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="393">
-              <caret line="41" column="29" selection-start-line="41" selection-start-column="29" selection-end-line="41" selection-end-column="29" />
+            <state relative-caret-position="356">
+              <caret line="45" column="65" selection-start-line="45" selection-start-column="65" selection-end-line="45" selection-end-column="65" />
               <folding>
                 <element signature="e#640#672#0" expanded="true" />
               </folding>
@@ -211,8 +214,8 @@
         <option value="$PROJECT_DIR$/server_alarm/dbtools.py" />
         <option value="$PROJECT_DIR$/server_alarm/mail_distribute.py" />
         <option value="$PROJECT_DIR$/server_alarm/models.py" />
-        <option value="$PROJECT_DIR$/django_vue_alarm/urls.py" />
         <option value="$PROJECT_DIR$/server_alarm/serializers.py" />
+        <option value="$PROJECT_DIR$/django_vue_alarm/urls.py" />
         <option value="$PROJECT_DIR$/server_alarm/views.py" />
       </list>
     </option>
@@ -373,15 +376,16 @@
       <workItem from="1548507553196" duration="1504000" />
       <workItem from="1548594641380" duration="1797000" />
       <workItem from="1548654668765" duration="14978000" />
-      <workItem from="1548728827819" duration="9675000" />
+      <workItem from="1548728827819" duration="18324000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="101900000" />
+    <option name="totallyTimeSpent" value="110549000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13646056" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -487,16 +491,6 @@
     <entry file="file://$PROJECT_DIR$/../../venv/django_vue_alarm_venv/Lib/site-packages/rest_framework/viewsets.py" />
     <entry file="file://$PROJECT_DIR$/models.py" />
     <entry file="file://$PROJECT_DIR$/../../venv/django_vue_alarm_venv/Lib/site-packages/django/db/models/manager.py" />
-    <entry file="file://$PROJECT_DIR$/server_alarm/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="12" column="10" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="10" />
-          <folding>
-            <element signature="e#468#496#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server_alarm/send_mail.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
@@ -536,8 +530,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/django_vue_alarm/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="41" column="29" selection-start-line="41" selection-start-column="29" selection-end-line="41" selection-end-column="29" />
+        <state relative-caret-position="356">
+          <caret line="45" column="65" selection-start-line="45" selection-start-column="65" selection-end-line="45" selection-end-column="65" />
           <folding>
             <element signature="e#640#672#0" expanded="true" />
           </folding>
@@ -546,15 +540,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server_alarm/serializers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="47" selection-start-column="47" selection-end-column="47" />
+        <state relative-caret-position="323">
+          <caret line="17" column="26" lean-forward="true" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#69#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server_alarm/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="147" column="7" selection-start-line="147" selection-start-column="7" selection-end-line="147" selection-end-column="7" />
+          <folding>
+            <element signature="e#468#496#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server_alarm/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="286" column="40" selection-start-line="286" selection-start-column="40" selection-end-line="286" selection-end-column="40" />
+        <state relative-caret-position="408">
+          <caret line="586" column="60" selection-start-line="586" selection-start-column="60" selection-end-line="586" selection-end-column="60" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>

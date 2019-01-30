@@ -1,4 +1,4 @@
-from .models import User, AppList, ServerTable, MailInfo
+from .models import User, Alarm, Rule, AppList, ServerTable, MailInfo
 from rest_framework import serializers
 #
 #
@@ -6,8 +6,23 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ('userid', 'useridentity', 'emailaddress')
-#
-#
+
+
+class AlarmSerializer(serializers.ModelSerializer):
+    # alarm_rules = SendRuleSerializer(many=True, read_only=True)
+    # mailoperation_set = MailOperationSerializer(many=True, read_only=True)
+    # mailoperation_set = MailOperationListSerializer(many=True, read_only=True)
+    class Meta:
+        model = Alarm
+        # exclude = ('rules', )
+        fields = '__all__'
+
+
+class RuleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rule
+        fields = ('id', 'send_rule', 'description')
+
 # class AppListSerializer(serializers.HyperlinkedModelSerializer):
 #     class Meta:
 #         model = AppList
@@ -49,10 +64,4 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 #         fields = '__all__'
 #
 #
-# class AlarmRuleSerializer(serializers.ModelSerializer):
-#     # alarm_rules = SendRuleSerializer(many=True, read_only=True)
-#     # mailoperation_set = MailOperationSerializer(many=True, read_only=True)
-#     # mailoperation_set = MailOperationListSerializer(many=True, read_only=True)
-#     class Meta:
-#         model = AlarmRule
-#         fields = '__all__'
+
