@@ -4,6 +4,7 @@
     <list default="true" id="17e9f94f-fbc3-4a30-b54c-1d00393d670a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/django_vue_alarm/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_vue_alarm/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_alarm/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/server_alarm/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server_alarm/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/server_alarm/serializers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server_alarm/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/server_alarm/views.py" afterDir="false" />
     </list>
@@ -35,11 +36,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server_alarm/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="147" column="7" selection-start-line="147" selection-start-column="7" selection-end-line="147" selection-end-column="7" />
+            <state relative-caret-position="361">
+              <caret line="160" column="84" selection-start-line="160" selection-start-column="84" selection-end-line="160" selection-end-column="84" />
               <folding>
                 <element signature="e#468#496#0" expanded="true" />
               </folding>
@@ -47,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server_alarm/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="586" column="60" selection-start-line="586" selection-start-column="60" selection-end-line="586" selection-end-column="60" />
+            <state relative-caret-position="617">
+              <caret line="610" selection-start-line="610" selection-end-line="610" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -62,10 +63,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server_alarm/serializers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="17" column="26" lean-forward="true" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
+            <state relative-caret-position="494">
+              <caret line="26" column="29" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="29" />
               <folding>
-                <element signature="e#0#69#0" expanded="true" />
+                <element signature="e#0#84#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -83,8 +84,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/django_vue_alarm/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="45" column="65" selection-start-line="45" selection-start-column="65" selection-end-line="45" selection-end-column="65" />
+            <state relative-caret-position="394">
+              <caret line="47" column="62" lean-forward="true" selection-start-line="47" selection-start-column="62" selection-end-line="47" selection-end-column="62" />
               <folding>
                 <element signature="e#640#672#0" expanded="true" />
               </folding>
@@ -213,9 +214,9 @@
         <option value="$PROJECT_DIR$/django_vue_alarm/settings.py" />
         <option value="$PROJECT_DIR$/server_alarm/dbtools.py" />
         <option value="$PROJECT_DIR$/server_alarm/mail_distribute.py" />
+        <option value="$PROJECT_DIR$/django_vue_alarm/urls.py" />
         <option value="$PROJECT_DIR$/server_alarm/models.py" />
         <option value="$PROJECT_DIR$/server_alarm/serializers.py" />
-        <option value="$PROJECT_DIR$/django_vue_alarm/urls.py" />
         <option value="$PROJECT_DIR$/server_alarm/views.py" />
       </list>
     </option>
@@ -376,16 +377,15 @@
       <workItem from="1548507553196" duration="1504000" />
       <workItem from="1548594641380" duration="1797000" />
       <workItem from="1548654668765" duration="14978000" />
-      <workItem from="1548728827819" duration="18324000" />
+      <workItem from="1548728827819" duration="24054000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="110549000" />
+    <option name="totallyTimeSpent" value="116279000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13646056" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -530,8 +530,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/django_vue_alarm/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="45" column="65" selection-start-line="45" selection-start-column="65" selection-end-line="45" selection-end-column="65" />
+        <state relative-caret-position="394">
+          <caret line="47" column="62" lean-forward="true" selection-start-line="47" selection-start-column="62" selection-end-line="47" selection-end-column="62" />
           <folding>
             <element signature="e#640#672#0" expanded="true" />
           </folding>
@@ -540,30 +540,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server_alarm/serializers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="17" column="26" lean-forward="true" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
+        <state relative-caret-position="494">
+          <caret line="26" column="29" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="29" />
           <folding>
-            <element signature="e#0#69#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server_alarm/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="147" column="7" selection-start-line="147" selection-start-column="7" selection-end-line="147" selection-end-column="7" />
-          <folding>
-            <element signature="e#468#496#0" expanded="true" />
+            <element signature="e#0#84#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server_alarm/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="586" column="60" selection-start-line="586" selection-start-column="60" selection-end-line="586" selection-end-column="60" />
+        <state relative-caret-position="617">
+          <caret line="610" selection-start-line="610" selection-end-line="610" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server_alarm/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="160" column="84" selection-start-line="160" selection-start-column="84" selection-end-line="160" selection-end-column="84" />
+          <folding>
+            <element signature="e#468#496#0" expanded="true" />
           </folding>
         </state>
       </provider>

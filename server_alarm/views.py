@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import User, AppList, ServerTable, MailInfo, Alarm, GameOperation, Rule
-from .serializers import UserSerializer, AlarmSerializer, RuleSerializer
+from .serializers import UserSerializer, AlarmSerializer, GameOperationSerializer, RuleSerializer
 # from .serializers import UserSerializer, AppListSerializer, ServerTableSerializer, MailInfoSerializer, AlarmSerializer, GameOperationSerializer, RuleSerializer
 from .mail_distribute import ArgsParser
 from .send_mail import async_send_mail
@@ -561,7 +561,7 @@ def update_alarm_rule(request, id):
     try:
         alarm = Alarm.objects.get(id=id)
     except:
-        message = '修改默认规则失败'
+        message = '修改默认发送规则失败'
         return Response({'code': 0, 'message': message})
     if request.method == 'PUT':
         data = request.data
@@ -570,7 +570,7 @@ def update_alarm_rule(request, id):
         alarm.rules = rule
         alarm.save()
         serializer = AlarmSerializer(alarm)
-        message = '修改默认规则成功'
+        message = '修改默认发送规则成功'
         return Response({'code': 1, 'message': message, 'alarm': serializer.data})
 
 
@@ -587,6 +587,42 @@ def update_alarm_receiver(request, id):
         receivers = ','.join([str(x) for x in user_id_list])
         alarm.receivers = receivers
         alarm.save()
-        serializer = AlarmSerializer(alarm)
+        alarm_serializer = AlarmSerializer(alarm)
         message = '修改默认收件人成功'
-        return Response({'code': 1, 'message': message, 'alarm': serializer.data})
+        return Response({'code': 1, 'message': message, 'alarm': alarm_serializer.data})
+
+
+@api_view(['PUT'])
+def update_game_rule(request, id):
+    try:
+        game_operation = GameOperation.objects.get(id=id)
+    except:
+        message = '修改游戏发送规则失败'
+        return Response({'code': 0, 'message': message})
+    if request.method == 'PUT':
+        data = request.data
+        rule_id = data.get('rule_id')
+        rule = Rule.objects.get(id=rule_id)
+        game_operation.rules = rule
+        game_operation.save()
+        serializer = GameOperationSerializer(game_operation)
+        message = '修改游戏发送规则成功'
+        return Response({'code': 1, 'message': message, 'game_operation': serializer.data})
+
+
+@api_view(['PUT'])
+def update_game_receiver(request, id):
+    try:
+        game_operation = GameOperation.objects.get(id=id)
+    except:
+        message = '修改游戏收件人失败'
+        return Response({'code': 0, 'message': message})
+    if request.method == 'PUT':
+        data = request.data
+        rule_id = data.get('rule_id')
+        rule = Rule.objects.get(id=rule_id)
+        game_operation.rules = rule
+        game_operation.save()
+        serializer = GameOperationSerializer(game_operation)
+        message = '修改游戏收件人成功'
+        return Response({'code': 1, 'message': message, 'game_operation': serializer.data})

@@ -44,7 +44,9 @@ urlpatterns = [
     # path('users/', UserViewSet),
     path('alarm', views.deal_alarm),
     path('update_alarm_rule/<int:id>/', views.update_alarm_rule),
-    path('update_alarm_receiver/<int:id>/', views.update_alarm_receiver)
+    path('update_alarm_receiver/<int:id>/', views.update_alarm_receiver),
+    path('update_game_rule/<int:id>/', views.update_game_rule),
+    path('update_game_receiver/<int:id>/', views.update_game_receiver)
     # path('add_rule', add_rule),
     # path('delete_rule', delete_rule),
     # path('alarm_rules/', AlarmRuleList.as_view()),

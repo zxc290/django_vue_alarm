@@ -1,4 +1,4 @@
-from .models import User, Alarm, Rule, AppList, ServerTable, MailInfo
+from .models import User, Alarm, Rule, GameOperation, AppList, ServerTable, MailInfo
 from rest_framework import serializers
 #
 #
@@ -22,6 +22,12 @@ class RuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rule
         fields = ('id', 'send_rule', 'description')
+
+
+class GameOperationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GameOperation
+        fields = '__all__'
 
 # class AppListSerializer(serializers.HyperlinkedModelSerializer):
 #     class Meta:

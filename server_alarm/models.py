@@ -159,11 +159,9 @@ class Alarm(models.Model):
 
 class GameOperation(models.Model):
     game = models.CharField(max_length=20, verbose_name='游戏', null=True, blank=True)
-    # alarms = models.ManyToManyField(AlarmRule, verbose_name='操作规则')
     receivers = models.CharField(max_length=1000, verbose_name='收件人')
     created_date = models.DateTimeField(auto_now_add=True, verbose_name='添加日期')
     alarms = models.ForeignKey(Alarm, on_delete=models.CASCADE, related_name='go_alarms', verbose_name='操作规则')
-    # send_rules = models.ForeignKey(SendRule, on_delete=models.SET_DEFAULT, null=True, verbose_name='发送规则', default='')
     rules = models.ForeignKey(Rule, on_delete=models.CASCADE, related_name='go_rules', verbose_name='发送规则', null=True)
 
     objects = ServerMailManager()
