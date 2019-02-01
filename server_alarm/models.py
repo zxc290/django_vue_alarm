@@ -5,9 +5,10 @@
 #   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
-from django.db import models
+from django.db import models, connections
+from django.conf import settings
 from .model_managers import UserWithEmailManager, OnlineAppManager, ServerManagementManager, ServerMailManager
-
+from .dbtools import dict_fetchall
 
 class User(models.Model):
     userid = models.IntegerField(db_column='userId', primary_key=True, verbose_name='用户id')  # Field name made lowercase.
@@ -28,15 +29,15 @@ class User(models.Model):
 
     objects = UserWithEmailManager()
 
-    # def get_user_permission(self):
-    #     sql = "SELECT * FROM dbo.NAuth({user_id}, 5) WHERE PID > 0 and FID IN {fid_permission}".format(user_id=self.userid, fid_permission=settings.FID_PERMISSION)
-    #     try:
-    #         admin_cursor = connections['default'].cursor()
-    #         admin_cursor.execute(sql)
-    #         result = dict_fetchall(admin_cursor)
-    #         return result
-    #     except:
-    #         return False
+    def get_user_permission(self):
+        sql = "SELECT * FROM dbo.NAuth({user_id}, 3) WHERE PID > 0 and FID IN {fid_permission}".format(user_id=self.userid, fid_permission=settings.FID_PERMISSION)
+        try:
+            admin_cursor = connections['default'].cursor()
+            admin_cursor.execute(sql)
+            result = dict_fetchall(admin_cursor)
+            return result
+        except:
+            return False
 
     def __str__(self):
         return self.useridentity
@@ -159,7 +160,7 @@ class Alarm(models.Model):
 
 class GameOperation(models.Model):
     game = models.CharField(max_length=20, verbose_name='游戏', null=True, blank=True)
-    receivers = models.CharField(max_length=1000, verbose_name='收件人')
+    receivers = models.CharField(max_length=1000, verbose_name='收件人', blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True, verbose_name='添加日期')
     alarms = models.ForeignKey(Alarm, on_delete=models.CASCADE, related_name='go_alarms', verbose_name='操作规则')
     rules = models.ForeignKey(Rule, on_delete=models.CASCADE, related_name='go_rules', verbose_name='发送规则', null=True)

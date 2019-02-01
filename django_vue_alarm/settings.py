@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import logging
+import django.utils.log
+import logging.handlers
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -81,16 +84,16 @@ WSGI_APPLICATION = 'django_vue_alarm.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 数据库引擎设置
+       # 数据库引擎设置
         'ENGINE': 'sql_server.pyodbc',
         # 要连接的数据库名
         'NAME': 'ServerAdmin',
         # 数据库用户名
-        'USER': 'sa',
+        'USER': 'DB_rwAccount!QAZ',
         # 数据库密码
-        'PASSWORD': '7cool_7COOL_7cool',
+        'PASSWORD': 'DB_dhJ15*edqdI',
         # 数据库主机地址
-        'HOST': '127.0.0.1',
+        'HOST': 'auth.xgd666.com,10097',
         # 数据库端口号，默认可以不写
         'PORT': '',
         # 选项，这个要先在操作系统上完成ODBC的连接创建，并连接成功，注意10.0这个地方，要和自己的ODBC版本一致
@@ -99,16 +102,16 @@ DATABASES = {
         },
     },
     'server_management': {
-        # 数据库引擎设置
+         # 数据库引擎设置
         'ENGINE': 'sql_server.pyodbc',
         # 要连接的数据库名
         'NAME': 'ServerManagement',
         # 数据库用户名
-        'USER': 'sa',
+        'USER': 'DB_rwAccount!QAZ',
         # 数据库密码
-        'PASSWORD': '7cool_7COOL_7cool',
+        'PASSWORD': 'DB_dhJ15*edqdI',
         # 数据库主机地址
-        'HOST': '127.0.0.1',
+        'HOST': 'auth.xgd666.com,10097',
         # 数据库端口号，默认可以不写
         'PORT': '',
         # 选项，这个要先在操作系统上完成ODBC的连接创建，并连接成功，注意10.0这个地方，要和自己的ODBC版本一致
@@ -277,6 +280,7 @@ DEFAULT_FROM_EMAIL = '游戏告警 <15505283705@163.com>'
 #     'http://localhost:8080'
 # )
 CORS_ORIGIN_ALLOW_ALL = True
+FID_PERMISSION = '(213)'
 
 # REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES': (
@@ -286,3 +290,88 @@ CORS_ORIGIN_ALLOW_ALL = True
     #         'rest_framework.permissions.IsAuthenticatedOrReadOnly'
     #     ]
 # }
+
+# 日志
+BASE_LOG_DIR = os.path.join(BASE_DIR, "log")
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s [%(threadName)s:%(thread)d] [%(name)s:%(lineno)d] [%(module)s:%(funcName)s] [%(levelname)s]- %(message)s'}
+    # 日志格式
+    },
+    'filters': {
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        },
+        'default': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_LOG_DIR, "info.log"),  # 日志输出文件
+            'maxBytes': 1024 * 1024 * 5,  # 文件大小
+            'backupCount': 5,  # 备份份数
+            'formatter': 'standard',  # 使用哪种formatters日志格式
+        },
+        'error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_LOG_DIR, "err.log"),
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 5,
+            'formatter': 'standard',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard'
+        },
+        'request_handler': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_LOG_DIR, "script.log"),
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 5,
+            'formatter': 'standard',
+        },
+        'scprits_handler': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_LOG_DIR, "script.log"),
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 5,
+            'formatter': 'standard',
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['default', 'console'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+        'django.request': {
+            'handlers': ['request_handler'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'scripts': {
+            'handlers': ['scprits_handler'],
+            'level': 'INFO',
+            'propagate': False
+        },
+        'sourceDns.webdns.views': {
+            'handlers': ['default', 'error'],
+            'level': 'DEBUG',
+            'propagate': True
+        },
+        'sourceDns.webdns.util': {
+            'handlers': ['error'],
+            'level': 'ERROR',
+            'propagate': True
+        }
+    }
+}

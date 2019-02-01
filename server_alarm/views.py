@@ -1,4 +1,5 @@
 import json
+import logging
 from datetime import datetime, timedelta
 from django.conf import settings
 from django.http import Http404
@@ -14,6 +15,11 @@ from .serializers import UserSerializer, AlarmSerializer, GameOperationSerialize
 from .mail_distribute import ArgsParser
 from .send_mail import async_send_mail
 from . import scheduler
+from .tokens import verify_token, gen_json_web_token
+from .decorators import token_required
+
+
+logger = logging.getLogger('django')
 
 
 @api_view(['POST'])
@@ -268,7 +274,7 @@ class AlarmDetail(APIView):
         alarm_rule_dict['template_kwargs'] = alarm_rule.template_kwargs
         alarm_rule_dict['rule_id'] = alarm_rule.rules.id
         alarm_rule_dict['receivers_by_games'] = alarm_rule.receivers_by_games
-        alarm_receiver_id_list = [int(id) for id in alarm_rule.receivers.split(',')]
+        alarm_receiver_id_list = [int(id) for id in alarm_rule.receivers.split(',') if alarm_rule.receivers]
         alarm_receivers = User.objects.filter(userid__in=alarm_receiver_id_list)
         serializer = UserSerializer(alarm_receivers, many=True)
         alarm_rule_dict['receivers'] = serializer.data
@@ -279,7 +285,7 @@ class AlarmDetail(APIView):
             mail_operation_dict = dict()
             mail_operation_dict['id'] = each.id
             mail_operation_dict['game'] = each.game
-            game_receiver_id_list = [int(id) for id in each.receivers.split(',')]
+            game_receiver_id_list = [int(id) for id in each.receivers.split(',') if each.receivers]
             game_receivers = User.objects.filter(userid__in=game_receiver_id_list)
             serializer = UserSerializer(game_receivers, many=True)
             mail_operation_dict['receivers'] = serializer.data
@@ -479,6 +485,7 @@ def multi_delete_mail_operations(request):
 
 
 @api_view(['GET'])
+@token_required
 def get_initial_options(request):
     all_user = User.objects.all()
     all_game = AppList.objects.all()
@@ -557,6 +564,7 @@ class UserList(APIView):
 
 
 @api_view(['PUT'])
+@token_required
 def update_alarm_rule(request, id):
     try:
         alarm = Alarm.objects.get(id=id)
@@ -575,6 +583,7 @@ def update_alarm_rule(request, id):
 
 
 @api_view(['PUT'])
+@token_required
 def update_alarm_receiver(request, id):
     try:
         alarm = Alarm.objects.get(id=id)
@@ -593,6 +602,7 @@ def update_alarm_receiver(request, id):
 
 
 @api_view(['PUT'])
+@token_required
 def update_game_rule(request, id):
     try:
         game_operation = GameOperation.objects.get(id=id)
@@ -611,6 +621,7 @@ def update_game_rule(request, id):
 
 
 @api_view(['PUT'])
+@token_required
 def update_game_receiver(request, id):
     try:
         game_operation = GameOperation.objects.get(id=id)
@@ -619,10 +630,57 @@ def update_game_receiver(request, id):
         return Response({'code': 0, 'message': message})
     if request.method == 'PUT':
         data = request.data
-        rule_id = data.get('rule_id')
-        rule = Rule.objects.get(id=rule_id)
-        game_operation.rules = rule
+        user_id_list = data.get('user_id_list')
+        receivers = ','.join([str(x) for x in user_id_list])
+        game_operation.receivers = receivers
         game_operation.save()
         serializer = GameOperationSerializer(game_operation)
         message = '修改游戏收件人成功'
         return Response({'code': 1, 'message': message, 'game_operation': serializer.data})
+
+
+@api_view(['POST'])
+def login(request):
+    data = request.data
+    username = data.get('username')
+    password = data.get('password')
+    now = datetime.now()
+    try:
+        user = User.objects.get(useridentity=username)
+        if user.check_password(password):
+            permission_result = user.get_user_permission()
+            if not permission_result:
+                message = '该用户没有此权限'
+                logger.info('登录用户无权限')
+                return Response({'code': 0, 'message': message})
+            else:
+                user.failcount = 0
+                user.lastlogintime = int(now.timestamp())
+                user.save()
+
+                # permission_dict = get_permission_dict(permission_result)
+                user_info = dict()
+                user_info['user_id'] = user.userid
+                user_info['username'] = user.useridentity
+                # user_info['permission'] = permission_dict
+
+                token = gen_json_web_token(user_info)
+                message = '登录成功'
+                logger.info('登录成功')
+                return Response({'code': 1, 'username': username,
+                                 'token': token, 'message': message})
+        else:
+            last_login_time = datetime.fromtimestamp(user.lastlogintime)
+            past_time = now - last_login_time
+            if past_time > timedelta(hours=1):
+                user.failcount = 0
+            user.failcount += 1
+            user.save()
+            if user.failcount >= 5:
+                message = '用户冻结中，请稍后重试'
+            else:
+                message = '密码错误，剩余{0}次尝试次数'.format(str(5 - user.failcount))
+            return Response({'code': 0, 'message': message})
+    except BaseException as e:
+        message = '该用户不存在'
+        return Response({'code': 0, 'message': message})
