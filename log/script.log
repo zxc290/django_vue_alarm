@@ -1,0 +1,255 @@
+2019-02-11 13:42:01,128 [Thread-7:12844] [django.request:228] [log:log_response] [WARNING]- Method Not Allowed: /update_alarm_rule/5/
+2019-02-11 13:42:22,367 [Thread-8:3476] [django.request:228] [log:log_response] [WARNING]- Method Not Allowed: /update_alarm_rule/5/
+2019-02-12 14:26:24,649 [Thread-344:12548] [django.request:228] [log:log_response] [WARNING]- Not Found: /alarms/undefined
+2019-02-12 14:27:13,826 [Thread-347:13520] [django.request:228] [log:log_response] [WARNING]- Not Found: /alarms/undefined
+2019-02-12 14:27:17,515 [Thread-350:13772] [django.request:228] [log:log_response] [WARNING]- Not Found: /alarms/undefined
+2019-02-12 15:41:52,828 [Thread-2:16872] [django.request:228] [log:log_response] [ERROR]- Internal Server Error: /alarm
+Traceback (most recent call last):
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\decorators.py", line 54, in handler
+    return func(*args, **kwargs)
+  File "E:\workspace\project\django_vue_alarm\server_alarm\views.py", line 31, in deal_alarm
+    alarm = Alarm.objects.get(type=type)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\db\models\manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\db\models\query.py", line 399, in get
+    self.model._meta.object_name
+server_alarm.models.Alarm.DoesNotExist: Alarm matching query does not exist.
+2019-02-12 15:46:18,389 [Thread-3:14976] [django.request:228] [log:log_response] [ERROR]- Internal Server Error: /alarm
+Traceback (most recent call last):
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\decorators.py", line 54, in handler
+    return func(*args, **kwargs)
+  File "E:\workspace\project\django_vue_alarm\server_alarm\views.py", line 41, in deal_alarm
+    rule, recipients = parser.get_recipients_and_rule()
+  File "E:\workspace\project\django_vue_alarm\server_alarm\mail_distribute.py", line 42, in get_recipients_and_rule
+    "ON alarm.id = operation.alarms_id WHERE operation.game='{game}' AND alarm.type='{type}'".format(game=self.game, type=self.alarm_rule.alarm_type)
+AttributeError: 'ArgsParser' object has no attribute 'alarm_rule'
+2019-02-12 15:47:42,591 [Thread-2:16732] [django.request:228] [log:log_response] [ERROR]- Internal Server Error: /alarm
+Traceback (most recent call last):
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\decorators.py", line 54, in handler
+    return func(*args, **kwargs)
+  File "E:\workspace\project\django_vue_alarm\server_alarm\views.py", line 41, in deal_alarm
+    rule, recipients = parser.get_recipients_and_rule()
+  File "E:\workspace\project\django_vue_alarm\server_alarm\mail_distribute.py", line 42, in get_recipients_and_rule
+    "ON alarm.id = operation.alarms_id WHERE operation.game='{game}' AND alarm.type='{type}'".format(game=self.game, type=self.alarm.alarm_type)
+AttributeError: 'Alarm' object has no attribute 'alarm_type'
+2019-02-12 15:48:41,617 [Thread-2:2708] [django.request:228] [log:log_response] [ERROR]- Internal Server Error: /alarm
+Traceback (most recent call last):
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\decorators.py", line 54, in handler
+    return func(*args, **kwargs)
+  File "E:\workspace\project\django_vue_alarm\server_alarm\views.py", line 41, in deal_alarm
+    rule, recipients = parser.get_recipients_and_rule()
+  File "E:\workspace\project\django_vue_alarm\server_alarm\mail_distribute.py", line 66, in get_recipients_and_rule
+    return send_rule, recipients
+UnboundLocalError: local variable 'send_rule' referenced before assignment
+2019-02-12 15:51:17,632 [Thread-2:16456] [django.request:228] [log:log_response] [ERROR]- Internal Server Error: /alarm
+Traceback (most recent call last):
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\decorators.py", line 54, in handler
+    return func(*args, **kwargs)
+  File "E:\workspace\project\django_vue_alarm\server_alarm\views.py", line 41, in deal_alarm
+    rule, recipients = parser.get_recipients_and_rule()
+  File "E:\workspace\project\django_vue_alarm\server_alarm\mail_distribute.py", line 69, in get_recipients_and_rule
+    return send_rule, recipients
+UnboundLocalError: local variable 'send_rule' referenced before assignment
+2019-02-12 15:52:38,264 [Thread-7:13252] [django.request:228] [log:log_response] [ERROR]- Internal Server Error: /alarm
+Traceback (most recent call last):
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\decorators.py", line 54, in handler
+    return func(*args, **kwargs)
+  File "E:\workspace\project\django_vue_alarm\server_alarm\views.py", line 41, in deal_alarm
+    rule, recipients = parser.get_recipients_and_rule()
+  File "E:\workspace\project\django_vue_alarm\server_alarm\mail_distribute.py", line 69, in get_recipients_and_rule
+    return send_rule, recipients
+UnboundLocalError: local variable 'send_rule' referenced before assignment
+2019-02-12 15:53:31,293 [Thread-7:5532] [django.request:228] [log:log_response] [ERROR]- Internal Server Error: /alarm
+Traceback (most recent call last):
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\decorators.py", line 54, in handler
+    return func(*args, **kwargs)
+  File "E:\workspace\project\django_vue_alarm\server_alarm\views.py", line 41, in deal_alarm
+    rule, recipients = parser.get_recipients_and_rule()
+  File "E:\workspace\project\django_vue_alarm\server_alarm\mail_distribute.py", line 70, in get_recipients_and_rule
+    return send_rule, recipients
+UnboundLocalError: local variable 'send_rule' referenced before assignment
+2019-02-12 15:57:23,668 [Thread-7:17024] [django.request:228] [log:log_response] [ERROR]- Internal Server Error: /alarm
+Traceback (most recent call last):
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\decorators.py", line 54, in handler
+    return func(*args, **kwargs)
+  File "E:\workspace\project\django_vue_alarm\server_alarm\views.py", line 41, in deal_alarm
+    rule, recipients = parser.get_recipients_and_rule()
+  File "E:\workspace\project\django_vue_alarm\server_alarm\mail_distribute.py", line 70, in get_recipients_and_rule
+    return send_rule, recipients
+UnboundLocalError: local variable 'send_rule' referenced before assignment
+2019-02-12 16:03:06,858 [Thread-22:17108] [django.request:228] [log:log_response] [ERROR]- Internal Server Error: /alarm
+Traceback (most recent call last):
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\decorators.py", line 54, in handler
+    return func(*args, **kwargs)
+  File "E:\workspace\project\django_vue_alarm\server_alarm\views.py", line 41, in deal_alarm
+    rule, recipients = parser.get_recipients_and_rule()
+  File "E:\workspace\project\django_vue_alarm\server_alarm\mail_distribute.py", line 70, in get_recipients_and_rule
+    return send_rule, recipients
+UnboundLocalError: local variable 'send_rule' referenced before assignment
+2019-02-12 16:04:12,118 [Thread-7:17208] [django.request:228] [log:log_response] [ERROR]- Internal Server Error: /alarm
+Traceback (most recent call last):
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\workspace\venv\django_vue_alarm_venv\lib\site-packages\rest_framework\decorators.py", line 54, in handler
+    return func(*args, **kwargs)
+  File "E:\workspace\project\django_vue_alarm\server_alarm\views.py", line 69, in deal_alarm
+    timedelta_seconds = (mail_info.create_date - old_mail.create_date).seconds
+AttributeError: 'bool' object has no attribute 'create_date'

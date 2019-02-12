@@ -1,8 +1,11 @@
 import os
+import logging
 from django.db import connections
 from .models import ServerTable, GameOperation, Alarm, User, Rule
 from .dbtools import dict_fetchall
 
+
+logger = logging.getLogger('django')
 
 class ArgsParser():
     def __init__(self, alarm, data):
@@ -39,21 +42,22 @@ class ArgsParser():
         if self.alarm.receivers_by_games:
             sql = "SELECT alarm.receivers as alarm_receivers, alarm.rules_id as alarm_send_rule, operation.receivers as game_receivers, " \
                   "operation.rules_id as game_send_rule FROM server_alarm_alarm as alarm JOIN server_alarm_gameoperation as operation " \
-                  "ON alarm.id = operation.alarms_id WHERE operation.game='{game}' AND alarm.type='{type}'".format(game=self.game, type=self.alarm_rule.alarm_type)
+                  "ON alarm.id = operation.alarms_id WHERE operation.game='{game}' AND alarm.type='{type}'".format(game=self.gametype, type=self.alarm.type)
             try:
                 server_mail_cursor = connections['server_mail'].cursor()
                 server_mail_cursor.execute(sql)
+                # print(dict_fetchall(server_mail_cursor))
                 result = dict_fetchall(server_mail_cursor)[0]
                 rule_id = result.get('game_send_rule')
                 if rule_id:
                     send_rule = Rule.objects.get(id=rule_id)
                 else:
                     send_rule = self.alarm.rules
-                receiver_id_list = result.get('game_receivers').split(',')
+                receiver_id_list = list(set(result.get('alarm_receivers').split(',') + result.get('game_receivers').split(',')))
                 receiver_list = User.objects.filter(userid__in=receiver_id_list)
                 recipients = [each.emailaddress for each in receiver_list]
-            except:
-                pass
+            except Exception as e:
+                print(e)
             finally:
                 server_mail_cursor.close()
         else:

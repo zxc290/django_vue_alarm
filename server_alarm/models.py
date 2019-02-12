@@ -5,6 +5,7 @@
 #   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
+import hashlib
 from django.db import models, connections
 from django.conf import settings
 from .model_managers import UserWithEmailManager, OnlineAppManager, ServerManagementManager, ServerMailManager
@@ -25,7 +26,7 @@ class User(models.Model):
     token = models.CharField(max_length=32, blank=True, null=True, verbose_name='token令牌')
 
     def check_password(self, password):
-        return self.password == password
+        return hashlib.md5(password.encode()).hexdigest().upper() == self.password
 
     objects = UserWithEmailManager()
 
