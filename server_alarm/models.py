@@ -161,7 +161,7 @@ class Alarm(models.Model):
 
 class GameOperation(models.Model):
     game = models.CharField(max_length=20, verbose_name='游戏', null=True, blank=True)
-    receivers = models.CharField(max_length=1000, verbose_name='收件人', blank=True, null=True)
+    receivers = models.CharField(max_length=1000, verbose_name='收件人', blank=True, null=True, default='')
     created_date = models.DateTimeField(auto_now_add=True, verbose_name='添加日期')
     alarms = models.ForeignKey(Alarm, on_delete=models.CASCADE, related_name='go_alarms', verbose_name='操作规则')
     rules = models.ForeignKey(Rule, on_delete=models.CASCADE, related_name='go_rules', verbose_name='发送规则', null=True)
@@ -185,11 +185,11 @@ class GameOperation(models.Model):
 
 class MailInfo(models.Model):
     ip_address = models.CharField(max_length=15, verbose_name='IP地址', null=True, blank=True)
-    game = models.CharField(max_length=20, verbose_name='游戏', null=True, blank=True)
-    platform = models.CharField(max_length=20, verbose_name='平台', null=True, blank=True)
-    zone = models.CharField(max_length=20, verbose_name='区服', null=True, blank=True)
-    title = models.CharField(max_length=20, verbose_name='标题')
-    content = models.CharField(max_length=50, verbose_name='内容')
+    game = models.CharField(max_length=100, verbose_name='游戏', null=True, blank=True)
+    platform = models.CharField(max_length=100, verbose_name='平台', null=True, blank=True)
+    zone = models.CharField(max_length=100, verbose_name='区服', null=True, blank=True)
+    title = models.CharField(max_length=100, verbose_name='标题')
+    content = models.CharField(max_length=100, verbose_name='内容')
     sent = models.BooleanField(default=False, verbose_name='已发送')
     create_date = models.DateTimeField(auto_now_add=True, verbose_name='创建日期')
     alarms = models.ManyToManyField(Alarm, verbose_name='邮件类型')

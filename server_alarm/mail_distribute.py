@@ -7,6 +7,7 @@ from .dbtools import dict_fetchall
 
 logger = logging.getLogger('django')
 
+
 class ArgsParser():
     def __init__(self, alarm, data):
         self.data = data

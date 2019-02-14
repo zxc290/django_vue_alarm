@@ -71,6 +71,7 @@ def deal_alarm(request):
                 if timedelta_hours >= 1:
                     logger.info('邮件间隔大于1小时，发送即时邮件')
                     async_send_mail(*mail_info_args, **mail_info_kwargs)
+                logger.info('邮件间隔小于1小时，不发送即时邮件')
 
         elif rule.send_rule == '9_or_17':
             date = datetime.now()
@@ -82,13 +83,14 @@ def deal_alarm(request):
                     sent=True).filter(create_date__range=[today_start, tomorrow_start]).first()
                 # 今天无此游戏报警的邮件，直接发
                 if not old_mail:
-                    logger.info('当前无9_17邮件，发送邮件')
+                    logger.info('当前无9或17邮件，发送邮件')
                     async_send_mail(*mail_info_args, **mail_info_kwargs)
                 else:
                     # 今天有此类游戏的报警,但不是这个时间点的，直接发
                     if old_mail.create_date.hour != hour:
                         logger.info('已有9点邮件，发送17点邮件')
                         async_send_mail(*mail_info_args, **mail_info_kwargs)
+                    logger.info('已有9或17点邮件，不发送邮件')
 
         elif rule.send_rule == 'one_hour':
             date = datetime.now()
@@ -162,6 +164,7 @@ class AlarmDetail(APIView):
             raise Http404
 
     def get(self, request, id, format=None):
+        print('1333')
         alarm_rule = self.get_object(id)
         alarm_rule_dict = dict()
         alarm_rule_dict['id'] = alarm_rule.id
@@ -498,6 +501,29 @@ def update_alarm_receiver(request, id):
         return Response({'code': 1, 'message': message, 'alarm': alarm_serializer.data})
 
 
+@api_view(['POST'])
+@token_required
+def add_game_rule(request):
+    # try:
+    #     game_operation = GameOperation.objects.get(id=id)
+    # except:
+    #     message = '修改游戏发送规则失败'
+    #     return Response({'code': 0, 'message': message})
+    if request.method == 'POST':
+        data = request.data
+        print(data)
+        alarm_id = data.get('alarm_id')
+        game_id = data.get('game_id')
+        rule_id = data.get('rule_id')
+        alarm = Alarm.objects.get(id=alarm_id)
+        rule = Rule.objects.get(id=rule_id)
+        gname = AppList.objects.get(gid=game_id).gname
+        game_operation = GameOperation.objects.create(game=gname, alarms=alarm, rules=rule)
+        serializer = GameOperationSerializer(game_operation)
+        message = '新增游戏发送规则成功'
+        return Response({'code': 1, 'message': message, 'game_operation': serializer.data})
+
+
 @api_view(['PUT'])
 @token_required
 def update_game_rule(request, id):
@@ -515,6 +541,26 @@ def update_game_rule(request, id):
         serializer = GameOperationSerializer(game_operation)
         message = '修改游戏发送规则成功'
         return Response({'code': 1, 'message': message, 'game_operation': serializer.data})
+
+
+@api_view(['DELETE'])
+@token_required
+def delete_game_rule(request, id):
+    try:
+        game_operation = GameOperation.objects.get(id=id)
+    except:
+        message = '删除游戏发送规则失败'
+        return Response({'code': 0, 'message': message})
+    if request.method == 'DELETE':
+        game_operation.delete()
+        # data = request.data
+        # rule_id = data.get('rule_id')
+        # rule = Rule.objects.get(id=rule_id)
+        # game_operation.rules = rule
+        # game_operation.save()
+        # serializer = GameOperationSerializer(game_operation)
+        message = '删除游戏发送规则成功'
+        return Response({'code': 1, 'message': message})
 
 
 @api_view(['PUT'])

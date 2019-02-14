@@ -12,3 +12,5 @@ def token_required(func):
             return Response({'code': 2, 'message': message})
         return func(request, *args, **kwargs)
     return wrapper
+
+
