@@ -11,6 +11,7 @@ from django.conf import settings
 from .model_managers import UserWithEmailManager, OnlineAppManager, ServerManagementManager, ServerMailManager
 from .dbtools import dict_fetchall
 
+
 class User(models.Model):
     userid = models.IntegerField(db_column='userId', primary_key=True, verbose_name='用户id')  # Field name made lowercase.
     useridentity = models.CharField(db_column='userIdentity', max_length=50, verbose_name='用户身份')  # Field name made lowercase.

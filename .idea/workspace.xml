@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="17e9f94f-fbc3-4a30-b54c-1d00393d670a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_vue_alarm/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_vue_alarm/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/info.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/info.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/script.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/script.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server_alarm/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/server_alarm/decorators.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server_alarm/mail_distribute.py" beforeDir="false" afterPath="$PROJECT_DIR$/server_alarm/mail_distribute.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server_alarm/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/server_alarm/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server_alarm/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/server_alarm/views.py" afterDir="false" />
     </list>
@@ -45,10 +38,46 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/fast_env.py">
+        <entry file="file://$PROJECT_DIR$/server_alarm/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="817">
-              <caret line="43" column="24" selection-start-line="43" selection-start-column="24" selection-end-line="43" selection-end-column="24" />
+            <state relative-caret-position="343">
+              <caret line="192" column="4" lean-forward="true" selection-start-line="192" selection-start-column="4" selection-end-line="192" selection-end-column="65" />
+              <folding>
+                <element signature="e#468#482#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/django_vue_alarm/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="80">
+              <caret line="269" selection-start-line="269" selection-end-line="275" selection-end-column="49" />
+              <folding>
+                <element signature="e#317#326#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/server_alarm/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="399">
+              <caret line="57" column="44" lean-forward="true" selection-start-line="57" selection-start-column="44" selection-end-line="57" selection-end-column="44" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server_alarm/mail_distribute.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="50" column="61" lean-forward="true" selection-start-line="50" selection-start-column="61" selection-end-line="50" selection-end-column="61" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -56,14 +85,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/django_vue_alarm/settings.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server_alarm/mail_message/recharge.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="282" column="3" selection-start-line="282" selection-end-line="282" selection-end-column="3" />
-              <folding>
-                <element signature="e#317#326#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="57">
+              <caret line="3" column="8" lean-forward="true" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server_alarm/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="76">
+              <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -79,12 +114,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>asp</find>
-      <find>JsonResponse</find>
-      <find>create</find>
-      <find>AlarmRuleViewSet</find>
-      <find>MailOperationListSerializer</find>
-      <find>失败</find>
       <find>code</find>
       <find>SendRule</find>
       <find>AlarmRule</find>
@@ -101,7 +130,6 @@
       <find>login</find>
       <find>报警规则列表</find>
       <find>game_receivers</find>
-      <find>logger</find>
       <find>self.gametype</find>
       <find>exists</find>
       <find>update</find>
@@ -109,6 +137,13 @@
       <find>getservertable</find>
       <find>alarm_hash</find>
       <find>fid</find>
+      <find>LOGIN</find>
+      <find>logger</find>
+      <find>index</find>
+      <find>scheduler</find>
+      <find>sched</find>
+      <find>send</find>
+      <find>title</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -149,12 +184,13 @@
         <option value="$PROJECT_DIR$/server_alarm/dbtools.py" />
         <option value="$PROJECT_DIR$/server_alarm/serializers.py" />
         <option value="$PROJECT_DIR$/django_vue_alarm/urls.py" />
-        <option value="$PROJECT_DIR$/server_alarm/models.py" />
-        <option value="$PROJECT_DIR$/server_alarm/views.py" />
         <option value="$PROJECT_DIR$/server_alarm/mail_distribute.py" />
         <option value="$PROJECT_DIR$/server_alarm/decorators.py" />
         <option value="$PROJECT_DIR$/fast_env.py" />
         <option value="$PROJECT_DIR$/django_vue_alarm/settings.py" />
+        <option value="$PROJECT_DIR$/server_alarm/models.py" />
+        <option value="$PROJECT_DIR$/server_alarm/mail_message/recharge.txt" />
+        <option value="$PROJECT_DIR$/server_alarm/views.py" />
       </list>
     </option>
   </component>
@@ -183,6 +219,17 @@
               <item name="django_vue_alarm" type="b2602c69:ProjectViewProjectNode" />
               <item name="django_vue_alarm" type="462c0819:PsiDirectoryNode" />
               <item name="django_vue_alarm" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="django_vue_alarm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="django_vue_alarm" type="462c0819:PsiDirectoryNode" />
+              <item name="server_alarm" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="django_vue_alarm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="django_vue_alarm" type="462c0819:PsiDirectoryNode" />
+              <item name="server_alarm" type="462c0819:PsiDirectoryNode" />
+              <item name="mail_message" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -355,17 +402,27 @@
       <workItem from="1550048040283" duration="1886000" />
       <workItem from="1550106858564" duration="22000" />
       <workItem from="1550107448796" duration="2730000" />
-      <workItem from="1550132657753" duration="242000" />
+      <workItem from="1550132657753" duration="389000" />
+      <workItem from="1550216733253" duration="1216000" />
+      <workItem from="1550478328741" duration="3241000" />
+      <workItem from="1550655066856" duration="108000" />
+      <workItem from="1550718148023" duration="87000" />
+      <workItem from="1551340705991" duration="698000" />
+      <workItem from="1551944295886" duration="200000" />
+      <workItem from="1552015289207" duration="632000" />
+      <workItem from="1552289658914" duration="1085000" />
+      <workItem from="1555057614527" duration="3208000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="155709000" />
+    <option name="totallyTimeSpent" value="166331000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1444563" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.116204694" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -379,7 +436,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3286334" />
       <window_info anchor="bottom" id="Database Changes" order="9" weight="0.3275488" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50429183" side_tool="true" weight="0.30907056" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.49570817" visible="true" weight="0.27657267" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49570817" weight="0.22342733" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.3286334" />
       <window_info anchor="bottom" id="Database Console" order="13" weight="0.32922733" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -422,9 +479,6 @@
     </ignored-roots>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/django/core/mail/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/django/conf/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/server_mail/__init__.py" />
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
@@ -454,7 +508,6 @@
     <entry file="file://$PROJECT_DIR$/../../venv/django_vue_alarm_venv/Lib/site-packages/django/db/models/query.py" />
     <entry file="file://$PROJECT_DIR$/../../venv/django_vue_alarm_venv/Lib/site-packages/rest_framework/views.py" />
     <entry file="file://$PROJECT_DIR$/../../venv/django_vue_alarm_venv/Lib/site-packages/rest_framework/serializers.py" />
-    <entry file="file://$PROJECT_DIR$/server_alarm/__init__.py" />
     <entry file="file://$PROJECT_DIR$/server_alarm/admin.py" />
     <entry file="file://$PROJECT_DIR$/server_alarm/apps.py" />
     <entry file="file://$PROJECT_DIR$/../../venv/django_vue_alarm_venv/Lib/site-packages/rest_framework/mixins.py" />
@@ -462,9 +515,6 @@
     <entry file="file://$PROJECT_DIR$/models.py" />
     <entry file="file://$PROJECT_DIR$/../../venv/django_vue_alarm_venv/Lib/site-packages/django/db/models/manager.py" />
     <entry file="file://$PROJECT_DIR$/server_alarm/model_managers.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server_alarm/mail_message/recharge.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/server_alarm/tokens.py">
@@ -486,9 +536,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/log/err.log">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/log/err.log" />
     <entry file="file://$PROJECT_DIR$/server_alarm/dbtools.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -506,53 +554,14 @@
     <entry file="file://$PROJECT_DIR$/server_alarm/mail_message/server_performance.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/log/script.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7001">
-          <caret line="453" column="103" selection-start-line="453" selection-start-column="91" selection-end-line="453" selection-end-column="103" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server_alarm/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1425">
-          <caret line="93" selection-start-line="93" selection-end-line="93" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/log/info.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191843">
-          <caret line="10097" selection-start-line="10097" selection-end-line="10097" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server_alarm/send_mail.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/log/script.log" />
+    <entry file="file://$PROJECT_DIR$/log/info.log" />
     <entry file="file://$PROJECT_DIR$/django_vue_alarm/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="646">
           <caret line="37" column="45" selection-start-line="37" selection-start-column="45" selection-end-line="37" selection-end-column="45" />
           <folding>
             <element signature="e#640#672#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server_alarm/mail_distribute.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="36" column="20" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -564,29 +573,86 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server_alarm/models.py">
+    <entry file="file://$PROJECT_DIR$/fast_env.py" />
+    <entry file="file://$PROJECT_DIR$/django_vue_alarm/wsgi.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3268">
-          <caret line="176" column="48" selection-start-line="176" selection-start-column="48" selection-end-line="176" selection-end-column="48" />
+        <state>
+          <folding>
+            <element signature="e#232#241#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fast_env.py">
+    <entry file="file://$PROJECT_DIR$/server_alarm/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="817">
-          <caret line="43" column="24" selection-start-line="43" selection-start-column="24" selection-end-line="43" selection-end-column="24" />
+        <state relative-caret-position="76">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django_vue_alarm/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="269" selection-start-line="269" selection-end-line="275" selection-end-column="49" />
+          <folding>
+            <element signature="e#317#326#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server_alarm/mail_distribute.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="50" column="61" lean-forward="true" selection-start-line="50" selection-start-column="61" selection-end-line="50" selection-end-column="61" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/django_vue_alarm/settings.py">
+    <entry file="file://$PROJECT_DIR$/server_alarm/mail_message/program_crush">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server_alarm/mail_message/recharge.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="282" column="3" selection-start-line="282" selection-end-line="282" selection-end-column="3" />
+        <state relative-caret-position="57">
+          <caret line="3" column="8" lean-forward="true" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server_alarm/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="192" column="4" lean-forward="true" selection-start-line="192" selection-start-column="4" selection-end-line="192" selection-end-column="65" />
           <folding>
-            <element signature="e#317#326#0" expanded="true" />
+            <element signature="e#468#482#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../venv/django_vue_alarm_venv/Lib/site-packages/django/core/mail/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="37" column="4" selection-start-line="37" selection-start-column="4" selection-end-line="37" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server_alarm/send_mail.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server_alarm/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="57" column="44" lean-forward="true" selection-start-line="57" selection-start-column="44" selection-end-line="57" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -63,15 +63,15 @@ def deal_alarm(request):
             if not old_mail:
                 logger.info('无旧邮件，直接发送即时邮件')
                 async_send_mail(*mail_info_args, **mail_info_kwargs)
-
             # 存在旧邮件，比较时间差是否大于1小时
             else:
                 timedelta_seconds = (mail_info.create_date - old_mail.create_date).seconds
                 timedelta_hours = timedelta_seconds // 3600
-                if timedelta_hours >= 1:
-                    logger.info('邮件间隔大于1小时，发送即时邮件')
+                if timedelta_hours >= 1 or old_mail.content != content:
+                    logger.info('满足大于1小时或邮件内容不同，发送即时邮件')
                     async_send_mail(*mail_info_args, **mail_info_kwargs)
-                logger.info('邮件间隔小于1小时，不发送即时邮件')
+                else:
+                    logger.info('邮件间隔小于1小时，不发送即时邮件')
 
         elif rule.send_rule == '9_or_17':
             date = datetime.now()
